@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no" />
+<meta name="theme-color" content="#111318" />
+<title>CaseLab — Kilowatt</title>
+<style>
+:root{--bg:#0d0f13;--panel:#151922;--panel2:#1b202b;--line:#2a303c;--text:#f4f6fb;--muted:#9aa4b2;--blue:#4b8cff;--purple:#8b5cf6;--pink:#d946ef;--red:#ef4444;--gold:#f3b73f;--green:#41d17d;--danger:#ff5c70}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}body{min-height:100vh;padding-bottom:92px}button,input,select{font:inherit}.app{max-width:720px;margin:0 auto;padding:14px}.topbar{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:14px}.brand{font-weight:900;letter-spacing:.02em}.brand span{color:var(--gold)}.wallet{text-align:right}.wallet b{font-size:20px}.wallet small{display:block;color:var(--muted)}.card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:18px;padding:14px}.hero{position:relative;overflow:hidden;padding:18px}.hero:before{content:"";position:absolute;inset:auto -30% -50% auto;width:260px;height:260px;background:radial-gradient(circle,rgba(243,183,63,.18),transparent 65%);pointer-events:none}.eyebrow{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}.hero h1{margin:4px 0 5px;font-size:28px}.price-row{display:flex;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:13px}.pill{border:1px solid var(--line);border-radius:999px;padding:7px 10px;background:#11151c}.openbtn{width:100%;margin-top:14px;border:0;border-radius:14px;padding:15px 16px;background:var(--gold);color:#1a1303;font-weight:900;font-size:17px}.openbtn:disabled{opacity:.45}.secondary{border:1px solid var(--line);background:#171c25;color:var(--text);border-radius:12px;padding:11px 12px;font-weight:750}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stats{margin-top:10px}.stat b{display:block;font-size:20px}.stat span{font-size:12px;color:var(--muted)}.section-title{display:flex;align-items:center;justify-content:space-between;margin:18px 2px 9px}.section-title h2{font-size:17px;margin:0}.section-title small{color:var(--muted)}.odds{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.odd{border-radius:12px;padding:10px 4px;text-align:center;background:#151923;border:1px solid var(--line)}.odd b{display:block;font-size:12px}.odd span{font-size:10px;color:var(--muted)}.rar-blue{border-top:3px solid var(--blue)}.rar-purple{border-top:3px solid var(--purple)}.rar-pink{border-top:3px solid var(--pink)}.rar-red{border-top:3px solid var(--red)}.rar-gold{border-top:3px solid var(--gold)}.inventory{display:grid;grid-template-columns:1fr;gap:8px}.item{display:grid;grid-template-columns:64px 1fr auto;gap:10px;align-items:center;padding:11px;border-radius:14px;background:#151923;border:1px solid var(--line);border-left:4px solid var(--rar)}.weapon-art{height:48px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,#242a36,#11151b);font-size:24px}.item h3{margin:0;font-size:14px}.meta{color:var(--muted);font-size:11px;margin-top:4px;line-height:1.45}.value{text-align:right}.value b{font-size:14px}.value small{display:block;color:var(--muted);font-size:10px}.sell{margin-top:5px;border:1px solid var(--line);background:#1f2632;color:var(--text);border-radius:9px;padding:6px 8px;font-size:11px}.empty{text-align:center;color:var(--muted);padding:26px 12px}.tabs{position:fixed;left:0;right:0;bottom:0;background:rgba(13,15,19,.94);backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:8px max(10px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));z-index:20}.tabs-inner{max-width:720px;margin:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.tab{border:0;background:transparent;color:var(--muted);padding:9px 4px;border-radius:12px;font-size:11px;font-weight:800}.tab.active{background:#202633;color:white}.view{display:none}.view.active{display:block}.filterbar{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:9px}.filterbar select{width:100%;background:#161b24;border:1px solid var(--line);color:var(--text);padding:11px;border-radius:11px}.modal{position:fixed;inset:0;background:rgba(0,0,0,.78);display:none;align-items:flex-end;z-index:50}.modal.show{display:flex}.sheet{width:100%;max-width:720px;margin:0 auto;background:#151923;border:1px solid var(--line);border-bottom:0;border-radius:24px 24px 0 0;padding:18px;padding-bottom:calc(20px + env(safe-area-inset-bottom));max-height:88vh;overflow:auto}.reveal-art{height:180px;border-radius:18px;background:radial-gradient(circle at 50% 45%,color-mix(in srgb,var(--rar) 28%,transparent),transparent 62%),#0f131a;display:grid;place-items:center;font-size:78px;border:1px solid color-mix(in srgb,var(--rar) 55%,#333)}.reveal h2{margin:14px 0 2px;font-size:22px}.reveal .finish{color:var(--rar);font-weight:900}.detailgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}.detail{background:#10141b;border:1px solid var(--line);border-radius:12px;padding:10px}.detail small{display:block;color:var(--muted);font-size:10px}.detail b{font-size:13px}.money{font-size:30px;font-weight:950}.good{color:var(--green)}.bad{color:var(--danger)}.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.note{font-size:11px;color:var(--muted);line-height:1.5}.history-row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding:10px 0;font-size:12px}.history-row:last-child{border-bottom:0}.dev{margin-top:18px}.dev summary{color:var(--muted);font-size:12px}.devrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.devrow button{font-size:11px}.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#202733;border:1px solid #394252;color:white;border-radius:999px;padding:9px 13px;font-size:12px;opacity:0;pointer-events:none;transition:.2s;z-index:80}.toast.show{opacity:1}.spark{animation:pop .35s ease-out}@keyframes pop{0%{transform:scale(.92);opacity:.4}100%{transform:scale(1);opacity:1}}@media(min-width:600px){.inventory{grid-template-columns:1fr 1fr}.item{grid-template-columns:56px 1fr}.value{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;text-align:left}.value small{display:inline;margin-left:5px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar"><div class="brand">CASE<span>LAB</span> <small style="color:var(--muted);font-weight:700">v0.1</small></div><div class="wallet"><b id="balance">$500.00</b><small>Career Balance</small></div></div>
+
+  <section id="openView" class="view active">
+    <div class="card hero">
+      <div class="eyebrow">Container Series #393</div><h1>Kilowatt Case</h1>
+      <div class="price-row"><span class="pill">Case $0.20</span><span class="pill">Key $2.49</span><span class="pill">Open $2.69</span></div>
+      <button id="openBtn" class="openbtn">OPEN KILOWATT CASE · $2.69</button>
+      <div class="grid2 stats"><div class="card stat"><b id="openedStat">0</b><span>Cases opened</span></div><div class="card stat"><b id="spentStat">$0.00</b><span>Total spent</span></div></div>
+    </div>
+    <div class="section-title"><h2>Real case odds</h2><small>independent rolls</small></div>
+    <div class="odds"><div class="odd rar-blue"><b>79.92%</b><span>Mil-Spec</span></div><div class="odd rar-purple"><b>15.98%</b><span>Restricted</span></div><div class="odd rar-pink"><b>3.20%</b><span>Classified</span></div><div class="odd rar-red"><b>0.64%</b><span>Covert</span></div><div class="odd rar-gold"><b>0.26%</b><span>Special</span></div></div>
+    <div class="section-title"><h2>Career snapshot</h2><small>Steam-net economics</small></div>
+    <div class="grid2"><div class="card stat"><b id="invValue">$0.00</b><span>Estimated inventory</span></div><div class="card stat"><b id="netValue">$0.00</b><span>After Steam fee</span></div><div class="card stat"><b id="roiStat">—</b><span>Liquidation ROI</span></div><div class="card stat"><b id="bestStat">—</b><span>Best pull</span></div></div>
+    <details class="card dev"><summary>Dev / test controls</summary><div class="devrow"><button class="secondary" id="add100">+ $100</button><button class="secondary" id="open10">Open 10 instantly</button><button class="secondary" id="resetSave">Reset save</button></div></details>
+  </section>
+
+  <section id="inventoryView" class="view">
+    <div class="section-title"><h2>Inventory</h2><small id="invCount">0 items</small></div>
+    <div class="filterbar"><select id="rarityFilter"><option value="all">All rarities</option><option>Mil-Spec</option><option>Restricted</option><option>Classified</option><option>Covert</option><option>Special</option></select><select id="sortFilter"><option value="new">Newest</option><option value="value">Highest value</option><option value="float">Lowest float</option></select></div>
+    <div id="inventory" class="inventory"></div>
+  </section>
+
+  <section id="statsView" class="view">
+    <div class="section-title"><h2>Statistics</h2><small>all-time save</small></div>
+    <div class="grid2"><div class="card stat"><b id="sCases">0</b><span>Opened</span></div><div class="card stat"><b id="sGold">0</b><span>Golds</span></div><div class="card stat"><b id="sST">0</b><span>StatTrak</span></div><div class="card stat"><b id="sSold">$0.00</b><span>Steam net sold</span></div></div>
+    <div class="section-title"><h2>Opening history</h2><small>last 50</small></div><div class="card" id="history"></div>
+  </section>
+
+  <section id="dataView" class="view">
+    <div class="section-title"><h2>Pricing model</h2><small>snapshot: Aug 31, 2026</small></div>
+    <div class="card note">Prices in this prototype are a Steam-market snapshot by exact wear and StatTrak variant. The rolled float then adjusts the wear price within a bounded premium/discount curve. This is an estimate of relative-float value, not a claim that Steam itself publishes sales indexed by float. Pattern premium is currently neutral except the generated pattern seed is stored on every item. Kukri finish premiums use conservative placeholder Steam-equivalent estimates until pattern-specific pricing is wired.</div>
+    <div class="section-title"><h2>Simulation rules</h2></div>
+    <div class="card note">Rarity is rolled first using 79.92 / 15.98 / 3.20 / 0.64 / 0.26. An item is chosen uniformly inside that rarity. StatTrak is independently rolled at 10%. Float is uniformly generated inside each skin's allowed float range; wear is derived from standard CS2 thresholds. Pattern seed is an integer from 0–999. Selling credits an estimated Steam net amount using a 15% combined fee model.</div>
+  </section>
+</div>
+
+<nav class="tabs"><div class="tabs-inner"><button class="tab active" data-view="openView">OPEN</button><button class="tab" data-view="inventoryView">INVENTORY</button><button class="tab" data-view="statsView">STATS</button><button class="tab" data-view="dataView">DATA</button></div></nav>
+<div id="modal" class="modal"><div class="sheet"><div class="reveal" id="reveal"></div></div></div><div id="toast" class="toast"></div>
+<script>
+(()=>{
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const CASE_PRICE=.20, KEY_PRICE=2.49, OPEN_COST=2.69, FEE=.15, ST_CHANCE=.10;
+const RC={"Mil-Spec":"#4b8cff","Restricted":"#8b5cf6","Classified":"#d946ef","Covert":"#ef4444","Special":"#f3b73f"};
+const wearNames=["Factory New","Minimal Wear","Field-Tested","Well-Worn","Battle-Scarred"];
+const price=(n,st)=>({normal:n,st});
+const skins=[
+ {name:"Dual Berettas | Hideout",rarity:"Mil-Spec",min:0,max:.70,p:price([.47,.18,.09,.09,.08],[.50,.25,.14,.16,.11])},
+ {name:"MAC-10 | Light Box",rarity:"Mil-Spec",min:0,max:1,p:price([1.23,.23,.11,.08,.08],[2.61,.38,.16,.11,.14])},
+ {name:"Nova | Dark Sigil",rarity:"Mil-Spec",min:0,max:.70,p:price([.47,.15,.08,.10,.10],[.45,.23,.12,.10,.12])},
+ {name:"SSG 08 | Dezastre",rarity:"Mil-Spec",min:0,max:1,p:price([.86,.20,.10,.07,.06],[1.59,.20,.13,.11,.09])},
+ {name:"Tec-9 | Slag",rarity:"Mil-Spec",min:0,max:.90,p:price([.80,.18,.09,.07,.12],[1.10,.26,.12,.14,.09])},
+ {name:"UMP-45 | Motorized",rarity:"Mil-Spec",min:0,max:.80,p:price([.54,.18,.09,.05,.08],[.76,.25,.14,.17,.14])},
+ {name:"XM1014 | Irezumi",rarity:"Mil-Spec",min:0,max:1,p:price([.48,.17,.08,.08,.08],[.85,.25,.12,.14,.09])},
+ {name:"Glock-18 | Block-18",rarity:"Restricted",min:0,max:.671875,p:price([2.44,1.19,.66,.67,.61],[5.79,3.30,1.46,1.56,1.26])},
+ {name:"M4A4 | Etch Lord",rarity:"Restricted",min:0,max:1,p:price([6.90,1.26,.56,.54,.56],[9.40,3.10,1.24,1.00,1.00])},
+ {name:"Five-SeveN | Hybrid",rarity:"Restricted",min:0,max:1,p:price([4.20,1.35,.52,.53,.53],[5.68,1.96,.96,.85,.89])},
+ {name:"MP7 | Just Smile",rarity:"Restricted",min:0,max:1,p:price([7.00,1.26,.54,.49,.46],[6.87,2.18,1.15,1.01,.83])},
+ {name:"Sawed-Off | Analog Input",rarity:"Restricted",min:0,max:1,p:price([1.63,.77,.51,.51,.53],[2.73,1.84,.99,.94,.87])},
+ {name:"M4A1-S | Black Lotus",rarity:"Classified",min:0,max:.70,p:price([17.61,8.70,5.45,5.35,5.24],[58.22,25,15.10,15.21,13.89])},
+ {name:"Zeus x27 | Olympus",rarity:"Classified",min:0,max:1,p:price([10.13,6.55,4.20,4.03,4.57],[21.99,11.64,5.83,6.48,6.32])},
+ {name:"USP-S | Jawbreaker",rarity:"Classified",min:0,max:1,p:price([25.83,8.37,4.44,4.35,3.61],[69.84,28.53,11.97,7.74,7.62])},
+ {name:"AWP | Chrome Cannon",rarity:"Covert",min:0,max:1,p:price([95.21,47.50,26.52,32.00,30.70],[186,81.01,51,34.76,28.98])},
+ {name:"AK-47 | Inheritance",rarity:"Covert",min:0,max:.80,p:price([154.25,78.80,49.08,47.55,38.51],[230,183.30,94.20,50.80,85.00])}
+];
+const knives=[
+ {name:"★ Kukri Knife | Vanilla",min:.06,max:.80,base:95},
+ {name:"★ Kukri Knife | Fade",min:0,max:.08,base:182},
+ {name:"★ Kukri Knife | Slaughter",min:.01,max:.26,base:130},
+ {name:"★ Kukri Knife | Case Hardened",min:0,max:1,base:92,pattern:true},
+ {name:"★ Kukri Knife | Crimson Web",min:.06,max:.80,base:78,pattern:true},
+ {name:"★ Kukri Knife | Blue Steel",min:0,max:1,base:68},
+ {name:"★ Kukri Knife | Stained",min:0,max:1,base:56},
+ {name:"★ Kukri Knife | Night Stripe",min:.06,max:.80,base:48},
+ {name:"★ Kukri Knife | Urban Masked",min:.06,max:.80,base:47},
+ {name:"★ Kukri Knife | Scorched",min:.06,max:.80,base:44},
+ {name:"★ Kukri Knife | Forest DDPAT",min:.06,max:.80,base:43},
+ {name:"★ Kukri Knife | Boreal Forest",min:.06,max:.80,base:42},
+ {name:"★ Kukri Knife | Safari Mesh",min:.06,max:.80,base:41}
+].map(k=>({...k,rarity:"Special"}));
+const defaultState={balance:500,inventory:[],opened:0,spent:0,soldNet:0,golds:0,stCount:0,history:[]};
+let state=load();
+function load(){try{return {...defaultState,...JSON.parse(localStorage.getItem('caselab-kilowatt-v01')||'{}')}}catch{return structuredClone(defaultState)}}
+function save(){localStorage.setItem('caselab-kilowatt-v01',JSON.stringify(state));render()}
+function money(n){return '$'+Number(n||0).toFixed(2)}
+function wearIndex(f){return f<.07?0:f<.15?1:f<.38?2:f<.45?3:4}
+function wearBounds(i){return [[0,.07],[.07,.15],[.15,.38],[.38,.45],[.45,1]][i]}
+function rollRarity(){let r=Math.random()*100; if(r<79.92)return'Mil-Spec'; if(r<95.90)return'Restricted'; if(r<99.10)return'Classified'; if(r<99.74)return'Covert'; return'Special'}
+function estimate(s,float,st){
+ if(s.rarity==='Special'){
+   let quality=1-((float-s.min)/(s.max-s.min||1)); let v=s.base*(.88+quality*.24); if(st)v*=1.45; return Math.max(1,v);
+ }
+ const wi=wearIndex(float), arr=st?s.p.st:s.p.normal, base=arr[wi] ?? arr.find(x=>x!=null) ?? .03;
+ const [lo,hi]=wearBounds(wi); const validLo=Math.max(lo,s.min), validHi=Math.min(hi,s.max); const pos=(float-validLo)/Math.max(.000001,validHi-validLo); 
+ // Float-value nudge: strongest in FN, modest elsewhere, bounded so it never pretends to be exact listing data.
+ const strength=[.22,.10,.07,.05,.09][wi]; return Math.max(.03,base*(1+strength*(.5-pos)));
+}
+function openOne(charge=true){
+ if(charge&&state.balance<OPEN_COST){toast('Not enough balance');return null}
+ if(charge){state.balance-=OPEN_COST;state.spent+=OPEN_COST;state.opened++}
+ const rarity=rollRarity(); const pool=rarity==='Special'?knives:skins.filter(x=>x.rarity===rarity); const s=pool[Math.floor(Math.random()*pool.length)];
+ const float=s.min+Math.random()*(s.max-s.min); const st=Math.random()<ST_CHANCE; const pattern=Math.floor(Math.random()*1000); const wi=wearIndex(float); const value=estimate(s,float,st);
+ const item={id:crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random(),name:s.name,rarity,float,wear:wearNames[wi],st,pattern,value,ts:Date.now(),patternSensitive:!!s.pattern};
+ state.inventory.unshift(item); if(rarity==='Special')state.golds++; if(st)state.stCount++; state.history.unshift({name:item.name,rarity,value,wear:item.wear,ts:item.ts}); state.history=state.history.slice(0,50); save(); return item;
+}
+function rarityColor(r){return RC[r]||'#aaa'}
+function showReveal(item){
+ const net=item.value*(1-FEE); const profit=net-OPEN_COST; const icon=item.rarity==='Special'?'🔪':item.name.includes('AWP')?'🎯':item.name.includes('Zeus')?'⚡':'🔫';
+ $('#reveal').style.setProperty('--rar',rarityColor(item.rarity)); $('#reveal').innerHTML=`<div class="reveal-art spark">${icon}</div><div class="eyebrow" style="margin-top:12px">${item.st?'StatTrak™ · ':''}${item.rarity}</div><h2>${item.name}</h2><div class="finish">${item.wear}</div><div class="detailgrid"><div class="detail"><small>Float</small><b>${item.float.toFixed(8)}</b></div><div class="detail"><small>Pattern seed</small><b>#${item.pattern}</b></div><div class="detail"><small>Estimated Steam value</small><b>${money(item.value)}</b></div><div class="detail"><small>Steam net if sold</small><b>${money(net)}</b></div></div><div class="money ${profit>=0?'good':'bad'}">${profit>=0?'+':''}${money(profit)}</div><div class="note">vs. this $${OPEN_COST.toFixed(2)} opening · value uses wear + relative-float estimate${item.patternSensitive?'; pattern premium not yet modeled':''}</div><div class="actions" style="margin-top:14px"><button class="secondary" id="keepBtn">KEEP</button><button class="openbtn" style="margin:0" id="sellReveal">SELL · ${money(net)}</button></div>`;
+ $('#modal').classList.add('show'); $('#keepBtn').onclick=()=>$('#modal').classList.remove('show'); $('#sellReveal').onclick=()=>{sellItem(item.id);$('#modal').classList.remove('show')};
+}
+function sellItem(id){const i=state.inventory.findIndex(x=>x.id===id);if(i<0)return; const item=state.inventory[i],net=item.value*(1-FEE);state.balance+=net;state.soldNet+=net;state.inventory.splice(i,1);save();toast(`Sold for ${money(net)} net`)}
+function renderInventory(){
+ let arr=[...state.inventory], rf=$('#rarityFilter').value;if(rf!=='all')arr=arr.filter(x=>x.rarity===rf);let sort=$('#sortFilter').value;if(sort==='value')arr.sort((a,b)=>b.value-a.value);if(sort==='float')arr.sort((a,b)=>a.float-b.float);
+ $('#invCount').textContent=`${state.inventory.length} item${state.inventory.length===1?'':'s'}`;
+ $('#inventory').innerHTML=arr.length?arr.map(x=>`<div class="item" style="--rar:${rarityColor(x.rarity)}"><div class="weapon-art">${x.rarity==='Special'?'🔪':'🔫'}</div><div><h3>${x.st?'StatTrak™ ':''}${x.name}</h3><div class="meta">${x.wear} · ${x.float.toFixed(8)}<br>Pattern #${x.pattern} · ${x.rarity}</div></div><div class="value"><div><b>${money(x.value)}</b><small>est. Steam</small></div><button class="sell" data-sell="${x.id}">Sell ${money(x.value*(1-FEE))}</button></div></div>`).join(''):'<div class="card empty">No skins yet. Go open the Kilowatt Case.</div>';
+ $$('[data-sell]').forEach(b=>b.onclick=()=>sellItem(b.dataset.sell));
+}
+function render(){
+ $('#balance').textContent=money(state.balance);$('#openedStat').textContent=state.opened;$('#spentStat').textContent=money(state.spent);$('#sCases').textContent=state.opened;$('#sGold').textContent=state.golds;$('#sST').textContent=state.stCount;$('#sSold').textContent=money(state.soldNet);
+ const iv=state.inventory.reduce((a,x)=>a+x.value,0), nv=iv*(1-FEE);$('#invValue').textContent=money(iv);$('#netValue').textContent=money(nv);$('#roiStat').textContent=state.spent?((nv+state.soldNet)/state.spent*100).toFixed(1)+'%':'—'; const best=state.inventory.length?[...state.inventory].sort((a,b)=>b.value-a.value)[0]:null;$('#bestStat').textContent=best?money(best.value):'—';
+ $('#openBtn').disabled=state.balance<OPEN_COST; renderInventory(); $('#history').innerHTML=state.history.length?state.history.map(h=>`<div class="history-row"><span style="color:${rarityColor(h.rarity)}">${h.name}<br><small style="color:var(--muted)">${h.wear}</small></span><b>${money(h.value)}</b></div>`).join(''):'<div class="empty">No openings yet.</div>';
+}
+function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('show');clearTimeout(window.__tt);window.__tt=setTimeout(()=>el.classList.remove('show'),1500)}
+$('#openBtn').onclick=()=>{const item=openOne(true);if(item)showReveal(item)};
+$('#open10').onclick=()=>{let n=Math.min(10,Math.floor(state.balance/OPEN_COST));if(!n)return toast('Not enough balance');let best=null;for(let i=0;i<n;i++){const x=openOne(true);if(!best||x.value>best.value)best=x}save();toast(`Opened ${n}; best ${money(best.value)}`)};
+$('#add100').onclick=()=>{state.balance+=100;save();toast('Added $100 test balance')};
+$('#resetSave').onclick=()=>{if(confirm('Reset the entire CaseLab save?')){state=structuredClone(defaultState);save();toast('Save reset')}};
+$('#rarityFilter').onchange=renderInventory;$('#sortFilter').onchange=renderInventory;
+$('#modal').addEventListener('click',e=>{if(e.target===$('#modal'))$('#modal').classList.remove('show')});
+$$('.tab').forEach(b=>b.onclick=()=>{$$('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');$$('.view').forEach(v=>v.classList.remove('active'));$('#'+b.dataset.view).classList.add('active');render()});
+render();
+})();
+</script>
+</body></html>
