@@ -1,20 +1,17 @@
-# CaseLab v0.6.0 — Stage 6 Flat Build
+CaseLab v0.6.0 – Stage 7
 
-This build stays **flat** for easier mobile GitHub uploads: no nested runtime folders.
+What this stage targets
+- Fix the inspect viewer so Kilowatt skins visibly render on the native 3D models.
+- Keep the camera-space static lighting from Stage 6.
+- Accept that wear degradation is still pending; the priority here is skin visibility and stability.
 
-## Upload
-Upload every file in this ZIP directly to the repository root.
+What changed
+- Replaced the failing white/fallback finish path with deterministic local finish-preview recipes for the Kilowatt case skins.
+- Added local preview recipes for the Kukri finishes so gold pulls no longer display as a blank white blade.
+- Kept the inspect lighting tied to camera space so front/back rotation stays readable.
+- Updated the inspect status copy to make it clear this is a local finish preview and that wear is still pending.
 
-## Stage 6 focus
-- Keeps the Stage 5.2 flat-file repair structure.
-- Changes inspect lighting to a **camera-space / viewer-relative setup** so rotating the weapon should not make the back side collapse into near-black.
-- Adds a small **reference finish** image inside inspect mode so unsupported local recipes still show what the intended finish is.
-- Replaces the Kukri hard-fail with a simple local inspect proxy so knife inspection is no longer just a broken placeholder.
-- Exact Source-2 finish parity is **still not claimed** for unsupported recipes.
-
-## What to test
-1. Open a few cases and inspect both a gun and a Kukri.
-2. Rotate the item front to back and check whether brightness stays much more consistent.
-3. Confirm the top of the weapon stays in frame and zooming no longer clips as aggressively.
-4. Confirm the reference-finish thumbnail appears in inspect mode.
-5. Tell me which skins still need true local recipes next so the following stage can target them directly.
+Notes
+- This stage is focused on "make the skins show up" first.
+- EXACT still exists as the external reference renderer.
+- Wear/pattern accuracy can be improved in a later stage after the finish layer is visibly working.
