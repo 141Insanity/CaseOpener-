@@ -1,0 +1,393 @@
+{
+  "schemaVersion": 1,
+  "case": {
+    "id": "case.kilowatt",
+    "name": "Kilowatt Case",
+    "collectionId": "collection.kilowatt",
+    "casePriceCents": 20,
+    "keyPriceCents": 249,
+    "openCostCents": 269,
+    "crateApiId": "crate-4904",
+    "imageApi": "https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/crates.json"
+  },
+  "collection": {
+    "id": "collection.kilowatt",
+    "name": "The Kilowatt Collection",
+    "goldPoolId": "gold.kilowatt.kukri"
+  },
+  "rarityOdds": [
+    {
+      "rarity": "Mil-Spec",
+      "p": 0.7992
+    },
+    {
+      "rarity": "Restricted",
+      "p": 0.1598
+    },
+    {
+      "rarity": "Classified",
+      "p": 0.032
+    },
+    {
+      "rarity": "Covert",
+      "p": 0.0064
+    },
+    {
+      "rarity": "Special",
+      "p": 0.0026
+    }
+  ],
+  "skins": [
+    {
+      "id": "skin.kilowatt.dual-berettas.hideout",
+      "name": "Dual Berettas | Hideout",
+      "weapon": "Dual Berettas",
+      "rarity": "Mil-Spec",
+      "minFloat": 0,
+      "maxFloat": 0.7,
+      "collectionId": "collection.kilowatt",
+      "paintIndex": 1169,
+      "model": "elite.glb",
+      "patternSensitive": false
+    },
+    {
+      "id": "skin.kilowatt.mac-10.light-box",
+      "name": "MAC-10 | Light Box",
+      "weapon": "MAC-10",
+      "rarity": "Mil-Spec",
+      "minFloat": 0,
+      "maxFloat": 1,
+      "collectionId": "collection.kilowatt",
+      "paintIndex": 1164,
+      "model": "mac10.glb",
+      "patternSensitive": false
+    },
+    {
+      "id": "skin.kilowatt.nova.dark-sigil",
+      "name": "Nova | Dark Sigil",
+      "weapon": "Nova",
+      "rarity": "Mil-Spec",
+      "minFloat": 0,
+      "maxFloat": 0.7,
+      "collectionId": "collection.kilowatt",
+      "paintIndex": 1162,
+      "model": "nova.glb",
+      "patternSensitive": false
+    },
+    {
+      "id": "skin.kilowatt.ssg-08.dezastre",
+      "name": "SSG 08 | Dezastre",
+      "weapon": "SSG 08",
+      "rarity": "Mil-Spec",
+      "minFloat": 0,
+      "maxFloat": 1.0,
+      "collectionId": "collection.kilowatt",
+      "paintIndex": 1161,
+      "model": "ssg08.glb",
+      "patternSensitive": false
+    },
+    {
+      "id": "skin.kilowatt.tec-9.slag",
+      "name": "Tec-9 | Slag",
+      "weapon": "Tec-9",
+      "rarity": "Mil-Spec",
+      "minFloat": 0,
+      "maxFloat": 0.9,
+      "collectionId": "collection.kilowatt",
+      "paintIndex": 1159,
+      "model": "tec9.glb",
+      "patternSensitive": false
+    },
+    {
+      "id": "skin.kilowatt.ump-45.motorized",
+      "name": "UMP-45 | Motorized",
+      "weapon": "UMP-45",
+      "rarity": "Mil-Spec",
+      "minFloat": 0,
+      "maxFloat": 0.8,
+      "collectionId": "collection.kilowatt",
+      "paintIndex": 1175,
+      "model": "ump45.glb",
+      "patternSensitive": false
+    },
+    {
+      "id": "skin.kilowatt.xm1014.irezumi",
+      "name": "XM1014 | Irezumi",
+      "weapon": "XM1014",
+      "rarity": "Mil-Spec",
+      "minFloat": 0,
+      "maxFloat": 0.8,
+      "collectionId": "collection.kilowatt",
+      "paintIndex": 1174,
+      "model": "xm1014.glb",
+      "patternSensitive": false
+    },
+    {
+      "id": "skin.kilowatt.glock-18.block-18",
+      "name": "Glock-18 | Block-18",
+      "weapon": "Glock-18",
+      "rarity": "Restricted",
+      "minFloat": 0,
+      "maxFloat": 0.67,
+      "collectionId": "collection.kilowatt",
+      "paintIndex": 1167,
+      "model": "glock18.glb",
+      "patternSensitive": false
+    },
+    {
+      "id": "skin.kilowatt.m4a4.etch-lord",
+      "name": "M4A4 | Etch Lord",
+      "weapon": "M4A4",
+      "rarity": "Restricted",
+      "minFloat": 0,
+      "maxFloat": 1.0,
+      "collectionId": "collection.kilowatt",
+      "paintIndex": 1165,
+      "model": "m4a4.glb",
+      "patternSensitive": false
+    },
+    {
+      "id": "skin.kilowatt.five-seven.hybrid",
+      "name": "Five-SeveN | Hybrid",
+      "weapon": "Five-SeveN",
+      "rarity": "Restricted",
+      "minFloat": 0,
+      "maxFloat": 1.0,
+      "collectionId": "collection.kilowatt",
+      "paintIndex": 1168,
+      "model": "fiveseven.glb",
+      "patternSensitive": false
+    },
+    {
+      "id": "skin.kilowatt.mp7.just-smile",
+      "name": "MP7 | Just Smile",
+      "weapon": "MP7",
+      "rarity": "Restricted",
+      "minFloat": 0,
+      "maxFloat": 1,
+      "collectionId": "collection.kilowatt",
+      "paintIndex": 1163,
+      "model": "mp7.glb",
+      "patternSensitive": false
+    },
+    {
+      "id": "skin.kilowatt.sawed-off.analog-input",
+      "name": "Sawed-Off | Analog Input",
+      "weapon": "Sawed-Off",
+      "rarity": "Restricted",
+      "minFloat": 0,
+      "maxFloat": 0.62,
+      "collectionId": "collection.kilowatt",
+      "paintIndex": 1160,
+      "model": "sawedoff.glb",
+      "patternSensitive": false
+    },
+    {
+      "id": "skin.kilowatt.m4a1-s.black-lotus",
+      "name": "M4A1-S | Black Lotus",
+      "weapon": "M4A1-S",
+      "rarity": "Classified",
+      "minFloat": 0,
+      "maxFloat": 0.7,
+      "collectionId": "collection.kilowatt",
+      "paintIndex": 1166,
+      "model": "m4a1_silencer.glb",
+      "patternSensitive": false
+    },
+    {
+      "id": "skin.kilowatt.zeus-x27.olympus",
+      "name": "Zeus x27 | Olympus",
+      "weapon": "Zeus x27",
+      "rarity": "Classified",
+      "minFloat": 0,
+      "maxFloat": 0.67,
+      "collectionId": "collection.kilowatt",
+      "paintIndex": 1172,
+      "model": "taser.glb",
+      "patternSensitive": false
+    },
+    {
+      "id": "skin.kilowatt.usp-s.jawbreaker",
+      "name": "USP-S | Jawbreaker",
+      "weapon": "USP-S",
+      "rarity": "Classified",
+      "minFloat": 0,
+      "maxFloat": 1,
+      "collectionId": "collection.kilowatt",
+      "paintIndex": 1173,
+      "model": "usp_silencer.glb",
+      "patternSensitive": false
+    },
+    {
+      "id": "skin.kilowatt.awp.chrome-cannon",
+      "name": "AWP | Chrome Cannon",
+      "weapon": "AWP",
+      "rarity": "Covert",
+      "minFloat": 0,
+      "maxFloat": 1,
+      "collectionId": "collection.kilowatt",
+      "paintIndex": 1170,
+      "model": "awp.glb",
+      "patternSensitive": false
+    },
+    {
+      "id": "skin.kilowatt.ak-47.inheritance",
+      "name": "AK-47 | Inheritance",
+      "weapon": "AK-47",
+      "rarity": "Covert",
+      "minFloat": 0,
+      "maxFloat": 0.8,
+      "collectionId": "collection.kilowatt",
+      "paintIndex": 1171,
+      "model": "ak47.glb",
+      "patternSensitive": false
+    }
+  ],
+  "goldPools": {
+    "gold.kilowatt.kukri": [
+      {
+        "id": "knife.kilowatt.kukri.vanilla",
+        "name": "\u2605 Kukri Knife | Vanilla",
+        "weapon": "Kukri Knife",
+        "rarity": "Special",
+        "minFloat": 0.06,
+        "maxFloat": 0.8,
+        "collectionId": "collection.kilowatt",
+        "finish": "Vanilla",
+        "patternSensitive": false
+      },
+      {
+        "id": "knife.kilowatt.kukri.fade",
+        "name": "\u2605 Kukri Knife | Fade",
+        "weapon": "Kukri Knife",
+        "rarity": "Special",
+        "minFloat": 0,
+        "maxFloat": 0.08,
+        "collectionId": "collection.kilowatt",
+        "finish": "Fade",
+        "patternSensitive": true
+      },
+      {
+        "id": "knife.kilowatt.kukri.slaughter",
+        "name": "\u2605 Kukri Knife | Slaughter",
+        "weapon": "Kukri Knife",
+        "rarity": "Special",
+        "minFloat": 0.01,
+        "maxFloat": 0.26,
+        "collectionId": "collection.kilowatt",
+        "finish": "Slaughter",
+        "patternSensitive": true
+      },
+      {
+        "id": "knife.kilowatt.kukri.case-hardened",
+        "name": "\u2605 Kukri Knife | Case Hardened",
+        "weapon": "Kukri Knife",
+        "rarity": "Special",
+        "minFloat": 0,
+        "maxFloat": 1,
+        "collectionId": "collection.kilowatt",
+        "finish": "Case Hardened",
+        "patternSensitive": true
+      },
+      {
+        "id": "knife.kilowatt.kukri.crimson-web",
+        "name": "\u2605 Kukri Knife | Crimson Web",
+        "weapon": "Kukri Knife",
+        "rarity": "Special",
+        "minFloat": 0.06,
+        "maxFloat": 0.8,
+        "collectionId": "collection.kilowatt",
+        "finish": "Crimson Web",
+        "patternSensitive": true
+      },
+      {
+        "id": "knife.kilowatt.kukri.blue-steel",
+        "name": "\u2605 Kukri Knife | Blue Steel",
+        "weapon": "Kukri Knife",
+        "rarity": "Special",
+        "minFloat": 0,
+        "maxFloat": 1,
+        "collectionId": "collection.kilowatt",
+        "finish": "Blue Steel",
+        "patternSensitive": false
+      },
+      {
+        "id": "knife.kilowatt.kukri.stained",
+        "name": "\u2605 Kukri Knife | Stained",
+        "weapon": "Kukri Knife",
+        "rarity": "Special",
+        "minFloat": 0,
+        "maxFloat": 1,
+        "collectionId": "collection.kilowatt",
+        "finish": "Stained",
+        "patternSensitive": false
+      },
+      {
+        "id": "knife.kilowatt.kukri.night-stripe",
+        "name": "\u2605 Kukri Knife | Night Stripe",
+        "weapon": "Kukri Knife",
+        "rarity": "Special",
+        "minFloat": 0.06,
+        "maxFloat": 0.8,
+        "collectionId": "collection.kilowatt",
+        "finish": "Night Stripe",
+        "patternSensitive": true
+      },
+      {
+        "id": "knife.kilowatt.kukri.urban-masked",
+        "name": "\u2605 Kukri Knife | Urban Masked",
+        "weapon": "Kukri Knife",
+        "rarity": "Special",
+        "minFloat": 0.06,
+        "maxFloat": 0.8,
+        "collectionId": "collection.kilowatt",
+        "finish": "Urban Masked",
+        "patternSensitive": true
+      },
+      {
+        "id": "knife.kilowatt.kukri.scorched",
+        "name": "\u2605 Kukri Knife | Scorched",
+        "weapon": "Kukri Knife",
+        "rarity": "Special",
+        "minFloat": 0.06,
+        "maxFloat": 0.8,
+        "collectionId": "collection.kilowatt",
+        "finish": "Scorched",
+        "patternSensitive": true
+      },
+      {
+        "id": "knife.kilowatt.kukri.forest-ddpat",
+        "name": "\u2605 Kukri Knife | Forest DDPAT",
+        "weapon": "Kukri Knife",
+        "rarity": "Special",
+        "minFloat": 0.06,
+        "maxFloat": 0.8,
+        "collectionId": "collection.kilowatt",
+        "finish": "Forest DDPAT",
+        "patternSensitive": true
+      },
+      {
+        "id": "knife.kilowatt.kukri.boreal-forest",
+        "name": "\u2605 Kukri Knife | Boreal Forest",
+        "weapon": "Kukri Knife",
+        "rarity": "Special",
+        "minFloat": 0.06,
+        "maxFloat": 0.8,
+        "collectionId": "collection.kilowatt",
+        "finish": "Boreal Forest",
+        "patternSensitive": true
+      },
+      {
+        "id": "knife.kilowatt.kukri.safari-mesh",
+        "name": "\u2605 Kukri Knife | Safari Mesh",
+        "weapon": "Kukri Knife",
+        "rarity": "Special",
+        "minFloat": 0.06,
+        "maxFloat": 0.8,
+        "collectionId": "collection.kilowatt",
+        "finish": "Safari Mesh",
+        "patternSensitive": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "modelBase": "https://raw.githubusercontent.com/Amansingh-afk/armoury/master/apps/web/public/models/",
+  "status": "preview",
+  "notes": "v0.6.0 preview keeps models remote while the local asset bundle is assembled. Five skins have raw CS2 map manifests; the Source-2 finish/wear compositor is deliberately marked incomplete rather than presented as exact.",
+  "skins": {
+    "skin.kilowatt.dual-berettas.hideout": {
+      "pattern":"https://cdn.csskinlab.com/textures/526ebf4116e1d61332b64b92d23f7719b2fc32a3cbcbabf69f93f9a1e5c25517.png?v=3",
+      "normal":"https://cdn.csskinlab.com/textures/cbc5fd5b950824cff771bab49c0fc5b0ff4e6936ed4024d52177fb610c8de581.png?v=3",
+      "roughness":"https://cdn.csskinlab.com/textures/7b8ce59ccb5f89491c8b09382c4b11efd84499b70cd1c0c58f2a26c50de84ea4.png?v=3"
+    },
+    "skin.kilowatt.mac-10.light-box": {
+      "pattern":"https://cdn.csskinlab.com/textures/9c63054b23160afbe46027c860975c4f31e0f129e1ab162d58d1a8276b89e2a7.png?v=3",
+      "normal":"https://cdn.csskinlab.com/textures/996746c1dfbd22b4dd3b83c675f1246ac145e8f2e3c3091c656c5f3af2f30c4f.png?v=3",
+      "roughness":"https://cdn.csskinlab.com/textures/18892c3f6435b33130a0175b8a2c31a88b1f884499776dac0a01cfa877e09f66.png?v=3"
+    },
+    "skin.kilowatt.nova.dark-sigil": {
+      "pattern":"https://cdn.csskinlab.com/textures/61f90149af29213b996f9cd180aaaa0dcdd8758eb50b41c1fb34b6d03dc78cb7.png?v=3",
+      "normal":"https://cdn.csskinlab.com/textures/62465a0b4d89833a5779faa5d767d60eb89834dc8e3f24629d6814a3bd1e63e2.png?v=3",
+      "roughness":"https://cdn.csskinlab.com/textures/5208ed36f3e5898d0a063181c62d95437f0d22201c49dd9a37de0235c5a39fe5.png?v=3"
+    },
+    "skin.kilowatt.mp7.just-smile": {
+      "pattern":"https://cdn.csskinlab.com/textures/3de3b9aca73e026472d8daf3c9e814fca45056515b92ba147254030de094e66e.png?v=3",
+      "albedo":"https://cdn.csskinlab.com/textures/69d1c15b748936f2a0c77f0a7d5f37a19a9dde6f183899d7df6bf53caa60af36.png?v=3",
+      "normal":"https://cdn.csskinlab.com/textures/c02b142ed509c9aa94ff3b0259dac04eef3dcf932dc5e24f3bc6d692d119527e.png?v=3",
+      "roughness":"https://cdn.csskinlab.com/textures/14e3abf0a27cf1c2e5067ebcad8c8388dc340a5db375e886e2eb2a122c602da6.png?v=3",
+      "ao":"https://cdn.csskinlab.com/textures/a532e858d784dfe40f8cb07670d55719a8586f356acf3d9aaaa4f96ec5d581cd.png?v=3",
+      "masks":"https://cdn.csskinlab.com/textures/6860eecb05d6491580fb2501146df6e28cac499eef289e04f939b2a17f66ecb4.png?v=3"
+    },
+    "skin.kilowatt.xm1014.irezumi": {
+      "pattern":"https://cdn.csskinlab.com/textures/f4d479f7462cd3dc2f46148c683d850a3996f83447ab094f35b0a9432b1a2d4a.png?v=3",
+      "normal":"https://cdn.csskinlab.com/textures/ca17cf00963259130e29e8dd817df1a39e7128c3e97fcc09794c2dd001db9940.png?v=3",
+      "roughness":"https://cdn.csskinlab.com/textures/c2acf0b68cdaa7a9f397908a47b2464430dc0dd3aa7c2a1a3299f43c467a5038.png?v=3"
+    }
+  }
+}

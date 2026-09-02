@@ -1,65 +1,145 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,viewport-fit=cover,user-scalable=no" />
-<meta name="theme-color" content="#0b0d11" />
-<title>CaseLab CS2 — Kilowatt</title>
-<link rel="stylesheet" href="app.css" />
-<style id="caselab-style-fallback">:root{--bg:#0b0d11;--panel:#141820;--panel2:#1a1f29;--line:#2a303b;--text:#f5f7fb;--muted:#98a2b1;--blue:#4b69ff;--purple:#8847ff;--pink:#d32ce6;--red:#eb4b4b;--gold:#e4ae39;--green:#43d17f;--danger:#ff6074;--cardw:132px;--gap:8px}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}html,body{margin:0;width:100%;height:100%;overflow:hidden;overscroll-behavior:none;background:radial-gradient(circle at 50% -10%,#151c27 0,#0b0d11 48%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;touch-action:manipulation}body{position:fixed;inset:0;padding:0;user-select:none}.app{height:100%;overflow:hidden;max-width:760px;margin:0 auto;padding:14px;padding-bottom:0}.view{height:calc(100% - 58px);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-bottom:104px;scrollbar-width:none}.view::-webkit-scrollbar{display:none}input,select{user-select:auto;-webkit-user-select:auto}button,select,input,summary,.tab,.sell,.openbtn,.secondary{touch-action:manipulation}.view{touch-action:pan-y}.modal,.sheet,.tabs,.topbar,.toast{touch-action:manipulation}.inspectLaunch{width:100%;margin-top:8px;border:1px solid #4a5665;background:#111721;color:#e9edf3;border-radius:12px;padding:12px;font-weight:900}.inspectNote{font-size:10px;color:var(--muted);line-height:1.45;margin-top:8px}.item{cursor:pointer}button,input,select{font:inherit}.topbar{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:14px}.brand{font-weight:950;letter-spacing:.03em}.brand span{color:var(--gold)}.brand small{color:var(--muted);font-weight:700}.wallet{text-align:right}.wallet b{font-size:20px}.wallet small{display:block;color:var(--muted)}
-.card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:18px;padding:14px}.hero{position:relative;overflow:hidden;padding:16px}.hero:before{content:"";position:absolute;right:-70px;bottom:-100px;width:280px;height:280px;background:radial-gradient(circle,rgba(228,174,57,.15),transparent 64%);pointer-events:none}.case-head{display:grid;grid-template-columns:92px 1fr;gap:12px;align-items:center}.case-img{height:82px;width:92px;object-fit:contain;filter:drop-shadow(0 10px 12px rgba(0,0,0,.35))}.case-fallback{height:82px;display:grid;place-items:center;font-size:50px}.eyebrow{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}.hero h1{margin:3px 0 6px;font-size:26px}.price-row{display:flex;gap:7px;flex-wrap:wrap;color:var(--muted);font-size:12px}.pill{border:1px solid var(--line);border-radius:999px;padding:6px 9px;background:#0e1218}
-.openbtn{width:100%;margin-top:13px;border:0;border-radius:13px;padding:15px 16px;background:linear-gradient(180deg,#f0bf4c,#d89d21);color:#181103;font-weight:950;font-size:17px;box-shadow:0 6px 20px rgba(228,174,57,.13)}.openbtn:disabled{opacity:.45}.secondary{border:1px solid var(--line);background:#171c25;color:var(--text);border-radius:12px;padding:11px 12px;font-weight:800}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stats{margin-top:10px}.stat b{display:block;font-size:20px}.stat span{font-size:12px;color:var(--muted)}.section-title{display:flex;align-items:center;justify-content:space-between;margin:18px 2px 9px}.section-title h2{font-size:17px;margin:0}.section-title small{color:var(--muted)}.odds{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.odd{border-radius:11px;padding:9px 3px;text-align:center;background:#12161e;border:1px solid var(--line)}.odd b{display:block;font-size:11px}.odd span{font-size:9px;color:var(--muted)}.rar-blue{border-top:3px solid var(--blue)}.rar-purple{border-top:3px solid var(--purple)}.rar-pink{border-top:3px solid var(--pink)}.rar-red{border-top:3px solid var(--red)}.rar-gold{border-top:3px solid var(--gold)}
-/* roulette */
-.roll-shell{display:none;margin:14px -16px -2px;background:#090b0f;border-top:1px solid #303642;border-bottom:1px solid #303642;position:relative;overflow:hidden}.roll-shell.show{display:block}.roll-window{height:154px;overflow:hidden;position:relative;background:linear-gradient(90deg,rgba(0,0,0,.56),transparent 14%,transparent 86%,rgba(0,0,0,.56))}.roll-track{height:100%;display:flex;gap:var(--gap);align-items:center;padding-left:0;will-change:transform;transform:translate3d(0,0,0)}.roll-card{width:var(--cardw);min-width:var(--cardw);height:126px;background:linear-gradient(180deg,#252b35,#171b22);border:1px solid #353d49;border-bottom:4px solid var(--rar);border-radius:7px;display:flex;flex-direction:column;justify-content:space-between;padding:6px;overflow:hidden}.roll-card img{width:100%;height:88px;object-fit:contain;filter:drop-shadow(0 6px 5px rgba(0,0,0,.35))}.roll-card .tiny-name{font-size:9px;line-height:1.1;color:#dce1e8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.marker{position:absolute;z-index:6;left:50%;top:0;bottom:0;width:2px;background:#f2bd3c;box-shadow:0 0 10px rgba(242,189,60,.8);transform:translateX(-1px);pointer-events:none}.marker:before{content:"";position:absolute;top:0;left:-6px;border-left:7px solid transparent;border-right:7px solid transparent;border-top:10px solid #f2bd3c}.marker:after{content:"";position:absolute;bottom:0;left:-6px;border-left:7px solid transparent;border-right:7px solid transparent;border-bottom:10px solid #f2bd3c}.roll-status{padding:8px 12px;font-size:11px;color:var(--muted);display:flex;justify-content:space-between;align-items:center}.skip{border:1px solid #3a4350;background:#151a22;color:#cfd5de;border-radius:8px;padding:7px 10px;font-size:10px;font-weight:800}
-.inventory{display:grid;grid-template-columns:1fr;gap:8px}.item{display:grid;grid-template-columns:82px 1fr auto;gap:10px;align-items:center;padding:9px;border-radius:14px;background:#151923;border:1px solid var(--line);border-left:4px solid var(--rar)}.weapon-art{height:58px;border-radius:10px;display:grid;place-items:center;background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.07),transparent 60%),#10141a;overflow:hidden}.weapon-art img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 5px 4px rgba(0,0,0,.35))}.item h3{margin:0;font-size:13px}.meta{color:var(--muted);font-size:10px;margin-top:4px;line-height:1.45}.value{text-align:right}.value b{font-size:13px}.value small{display:block;color:var(--muted);font-size:9px}.sell{margin-top:5px;border:1px solid var(--line);background:#1f2632;color:var(--text);border-radius:9px;padding:6px 8px;font-size:10px}.empty{text-align:center;color:var(--muted);padding:26px 12px}.tabs{position:fixed;left:0;right:0;bottom:0;background:rgba(11,13,17,.94);backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:8px max(10px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));z-index:20}.tabs-inner{max-width:760px;margin:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.tab{border:0;background:transparent;color:var(--muted);padding:9px 4px;border-radius:12px;font-size:11px;font-weight:850}.tab.active{background:#202633;color:white}.view{display:none}.view.active{display:block}.filterbar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:9px}.filterbar select{width:100%;background:#161b24;border:1px solid var(--line);color:var(--text);padding:11px;border-radius:11px}.modal{position:fixed;inset:0;background:rgba(0,0,0,.80);display:none;align-items:flex-end;z-index:50}.modal.show{display:flex}.sheet{width:100%;max-width:760px;margin:0 auto;background:#151923;border:1px solid var(--line);border-bottom:0;border-radius:24px 24px 0 0;padding:18px;padding-bottom:calc(20px + env(safe-area-inset-bottom));max-height:90vh;overflow:auto}.reveal-art{height:min(190px,28vh);border-radius:18px;background:radial-gradient(circle at 50% 45%,color-mix(in srgb,var(--rar) 22%,transparent),transparent 62%),#0f131a;display:grid;place-items:center;border:1px solid color-mix(in srgb,var(--rar) 55%,#333);overflow:hidden}.reveal-art img{width:90%;height:86%;object-fit:contain;filter:drop-shadow(0 12px 10px rgba(0,0,0,.45))}.reveal h2{margin:14px 0 2px;font-size:22px}.reveal .finish{color:var(--rar);font-weight:900}.detailgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}.detail{background:#10141b;border:1px solid var(--line);border-radius:12px;padding:10px}.detail small{display:block;color:var(--muted);font-size:10px}.detail b{font-size:13px}.money{font-size:30px;font-weight:950}.good{color:var(--green)}.bad{color:var(--danger)}.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}@media(max-width:430px){.actions{grid-template-columns:1fr 1fr}.actions .inspectLaunch{grid-column:1/-1}.filterbar{grid-template-columns:1fr 1fr}.filterbar #sortFilter,.filterbar #tradeSortFilter{grid-column:1/-1}}.note{font-size:11px;color:var(--muted);line-height:1.5}.history-row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding:10px 0;font-size:12px}.history-row:last-child{border-bottom:0}.dev{margin-top:18px}.dev summary{color:var(--muted);font-size:12px}.devrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.devrow button{font-size:11px}.toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top) + 72px);bottom:auto;transform:translateX(-50%);max-width:min(88vw,520px);background:#202733;border:1px solid #394252;color:white;border-radius:999px;padding:9px 13px;font-size:12px;opacity:0;pointer-events:none;transition:opacity .18s ease,transform .18s ease;z-index:80;touch-action:none}.toast.show{opacity:1;transform:translateX(-50%) translateY(2px)}.spark{animation:pop .32s ease-out}@keyframes pop{0%{transform:scale(.93);opacity:.45}100%{transform:scale(1);opacity:1}}@media(max-width:380px){:root{--cardw:116px}.case-head{grid-template-columns:78px 1fr}.case-img{width:78px}.odds{gap:4px}.odd b{font-size:10px}.odd span{font-size:8px}.item{grid-template-columns:70px 1fr auto}}@media(min-width:600px){:root{--cardw:150px}.inventory{grid-template-columns:1fr 1fr}.item{grid-template-columns:74px 1fr}.value{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;text-align:left}.value small{display:inline;margin-left:5px}}
-
-/* v0.5.6 Kilowatt-complete systems */
-/* v0.5.6 inspect visibility */
-.inspectBadge{min-width:min(62vw,360px)}
-.inspectRow{display:flex;align-items:center;justify-content:space-between;gap:18px;font-size:14px;line-height:1.35;margin:2px 0}
-.inspectRow span{color:#98a2b3;text-transform:uppercase;letter-spacing:.08em;font-size:11px}
-.inspectRow b{color:#fff;font-variant-numeric:tabular-nums}
-.native3d{background:radial-gradient(circle at 50% 42%,rgba(72,86,112,.32),rgba(14,18,28,.12) 40%,rgba(5,7,12,.72) 78%)}
-
-.view{touch-action:pan-y}.tabs-inner{grid-template-columns:repeat(5,1fr)}
-button,.tab,.dev,.dev summary,.devrow,.devrow button,.modal,.sheet{touch-action:manipulation}
-.trade-list{display:grid;gap:8px}.trade-item{display:grid;grid-template-columns:42px 70px 1fr auto;gap:8px;align-items:center;padding:9px;border:1px solid var(--line);border-left:4px solid var(--rar);border-radius:13px;background:#141923}.trade-item.disabled{opacity:.42}.trade-item.priority{background:#19202b;border-color:#3a4657}.trade-filterbar{position:sticky;top:128px;z-index:3;background:linear-gradient(180deg,var(--bg) 76%,rgba(11,13,17,.78));padding:6px 0 9px;margin-bottom:3px}.trade-check{width:24px;height:24px;accent-color:var(--gold)}.trade-mini{height:48px;background:#0e1218;border-radius:9px;display:grid;place-items:center;overflow:hidden}.trade-mini img{width:100%;height:100%;object-fit:contain}.trade-info b{font-size:12px;display:block}.trade-info small{font-size:9px;color:var(--muted);display:block;line-height:1.35}.contract{position:sticky;top:0;z-index:4;background:linear-gradient(180deg,#171c24 75%,rgba(23,28,36,.92));border:1px solid var(--line);border-radius:16px;padding:12px;margin-bottom:10px}.contract-top{display:flex;justify-content:space-between;gap:8px;align-items:center}.contract-count{font-size:24px;font-weight:950}.contract-meta{font-size:10px;color:var(--muted)}.progress{height:7px;border-radius:99px;background:#0c1016;overflow:hidden;margin:9px 0}.progress>i{display:block;height:100%;background:var(--gold);width:0}.output-grid{display:grid;grid-template-columns:1fr;gap:7px;margin-top:8px}.output{display:grid;grid-template-columns:58px 1fr auto;gap:8px;align-items:center;background:#10141b;border:1px solid var(--line);border-left:4px solid var(--rar);padding:7px;border-radius:11px}.output img{width:58px;height:42px;object-fit:contain}.output b{font-size:11px}.output small{display:block;color:var(--muted);font-size:9px}.chance{font-weight:950;font-size:11px}.contents-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.content-card{background:#121720;border:1px solid var(--line);border-top:3px solid var(--rar);border-radius:12px;padding:8px;min-width:0}.content-art{height:72px;display:grid;place-items:center}.content-art img{width:100%;height:100%;object-fit:contain}.content-card b{font-size:10px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.content-card small{font-size:9px;color:var(--muted)}
-.viewerModal{position:fixed;inset:0;background:#090b0f;z-index:120;display:none;flex-direction:column}.viewerModal.show{display:flex}.viewerBar{padding:max(10px,env(safe-area-inset-top)) 10px 10px;display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;border-bottom:1px solid var(--line);background:#11161e}.viewerBar button{min-width:44px;min-height:44px}.viewerTitle{min-width:0;text-align:center}.viewerTitle b{display:block;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.viewerTitle small{display:block;color:var(--muted);font-size:9px}.viewerBody{flex:1;min-height:0;position:relative;background:radial-gradient(circle at 50% 35%,#1a2330,#090b0f 68%);touch-action:none;overflow:hidden}.native3d{position:absolute;inset:0;touch-action:none}.native3d canvas{display:block;width:100%;height:100%;touch-action:none}.viewerHud{position:absolute;left:10px;right:10px;bottom:10px;display:flex;justify-content:space-between;gap:8px;align-items:end;pointer-events:none}.viewerBadge{background:rgba(9,12,17,.78);border:1px solid #34404e;border-radius:12px;padding:8px 10px;backdrop-filter:blur(8px);font-size:10px;color:#dce3ec;pointer-events:auto}.viewerBadge small{display:block;color:var(--muted);margin-top:2px}.viewerModes{display:flex;gap:6px;pointer-events:auto}.viewerModes button{border:1px solid #3b4654;background:rgba(15,20,28,.88);color:#eef2f7;border-radius:10px;padding:8px 10px;font-size:10px;font-weight:850}.viewerModes button.active{border-color:var(--gold);color:#ffd76c}.viewerLoading{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:30px;color:var(--muted);font-size:12px;pointer-events:none}.viewerLoading.hidden{display:none}.viewerFoot{padding:8px 12px calc(8px + env(safe-area-inset-bottom));font-size:9px;color:var(--muted);border-top:1px solid var(--line);background:#11161e}.viewerFoot b{color:#fff}.taprow{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}.taprow::-webkit-scrollbar{display:none}.chip{border:1px solid var(--line);background:#141a23;color:var(--text);border-radius:999px;padding:8px 10px;font-size:10px;white-space:nowrap}.chip.active{border-color:var(--gold);color:#ffd76c}.section-sub{font-size:10px;color:var(--muted);line-height:1.45;margin:-4px 2px 10px}.luckbar{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-top:10px}.luckbar div{height:6px;border-radius:999px;background:#1c222c;overflow:hidden}.luckbar i{display:block;height:100%}
-@media(max-width:370px){.tab{font-size:9px}.trade-item{grid-template-columns:34px 56px 1fr auto}.contents-grid{grid-template-columns:1fr}}</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,viewport-fit=cover,user-scalable=no">
+  <meta name="theme-color" content="#0b0d11">
+  <title>CaseLab CS2 — Kilowatt</title>
+  <link rel="stylesheet" href="./css/app.css">
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}</script>
 </head>
 <body>
-<div class="app">
-  <div class="topbar"><div class="brand">CASE<span>LAB</span> <small>v0.6.0 · Stage 5</small></div><div class="wallet"><b id="balance">$500.00</b><small>Career Balance</small></div></div>
+<div class="app" id="app">
+  <header class="topbar">
+    <div class="brand">CASE<span>LAB</span> <small>v0.6.0 · Stage 5.1 Preview</small></div>
+    <div class="wallet"><b id="balance">$0.00</b><small>SIMULATED BALANCE</small></div>
+  </header>
 
-  <section id="openView" class="view active">
-    <div class="card hero">
-      <div class="case-head"><div id="caseArtWrap" class="case-fallback">📦</div><div><div class="eyebrow">Container Series #393</div><h1>Kilowatt Case</h1><div class="price-row"><span class="pill">Case $0.20</span><span class="pill">Key $2.49</span><span class="pill">Open $2.69</span></div></div></div>
-      <div id="rollShell" class="roll-shell"><div class="roll-window" id="rollWindow"><div class="roll-track" id="rollTrack"></div><div class="marker"></div></div><div class="roll-status"><span id="rollStatus">Opening Kilowatt Case…</span><button id="skipRoll" class="skip" type="button">SKIP</button></div></div>
-      <button id="openBtn" class="openbtn">OPEN KILOWATT CASE · $2.69</button>
-      <div class="grid2 stats"><div class="card stat"><b id="openedStat">0</b><span>Cases opened</span></div><div class="card stat"><b id="spentStat">$0.00</b><span>Total spent</span></div></div>
+  <main class="view active" id="openView">
+    <section class="card hero">
+      <div class="case-head">
+        <div id="caseArtWrap" class="case-fallback">⚡</div>
+        <div><div class="eyebrow">CURRENT CASE</div><h1>Kilowatt Case</h1><div class="price-row"><span class="pill" id="casePricePill">Case $0.20</span><span class="pill">Key $2.49</span><span class="pill"><b>$2.69</b> / open</span></div></div>
+      </div>
+      <button class="openbtn" id="openBtn">OPEN KILOWATT · $2.69</button>
+      <div class="roll-shell" id="rollShell">
+        <div class="roll-window"><div class="roll-track" id="rollTrack"></div><div class="marker"></div></div>
+        <div class="roll-status"><span id="rollText">Decrypting container…</span><button class="skip" id="skipRoll">SKIP</button></div>
+      </div>
+    </section>
+
+    <section class="grid2 stats">
+      <div class="card stat"><b id="openedStat">0</b><span>cases opened</span></div>
+      <div class="card stat"><b id="spentStat">$0.00</b><span>spent on openings</span></div>
+      <div class="card stat"><b id="grossRoiStat">—</b><span>realized gross ROI</span></div>
+      <div class="card stat"><b id="roiStat">—</b><span>Steam-net ROI</span></div>
+    </section>
+
+    <div class="section-title"><h2>Case odds</h2><small>CS weapon-case rarity distribution</small></div>
+    <div class="odds">
+      <div class="odd rar-blue"><b>79.92%</b><span>Mil-Spec</span></div><div class="odd rar-purple"><b>15.98%</b><span>Restricted</span></div><div class="odd rar-pink"><b>3.20%</b><span>Classified</span></div><div class="odd rar-red"><b>0.64%</b><span>Covert</span></div><div class="odd rar-gold"><b>0.26%</b><span>Gold</span></div>
     </div>
-    <div class="section-title"><h2>Real case odds</h2><small>independent rolls</small></div>
-    <div class="odds"><div class="odd rar-blue"><b>79.92%</b><span>Mil-Spec</span></div><div class="odd rar-purple"><b>15.98%</b><span>Restricted</span></div><div class="odd rar-pink"><b>3.20%</b><span>Classified</span></div><div class="odd rar-red"><b>0.64%</b><span>Covert</span></div><div class="odd rar-gold"><b>0.26%</b><span>Special</span></div></div>
-    <div class="section-title"><h2>Career snapshot</h2><small>Steam-net economics</small></div>
-    <div class="grid2"><div class="card stat"><b id="invValue">$0.00</b><span>Gross inventory value</span></div><div class="card stat"><b id="netValue">$0.00</b><span>Net after Steam fee</span></div><div class="card stat"><b id="grossRoiStat">—</b><span>Gross ROI</span></div><div class="card stat"><b id="roiStat">—</b><span>Net liquidation ROI</span></div><div class="card stat"><b id="bestStat">—</b><span>Best pull</span></div><div class="card stat"><b id="roiGapStat">—</b><span>Steam fee drag</span></div></div><div class="grid2 economyExtra"><div class="card stat"><b id="theoreticalRoi">—</b><span>Theoretical current gross RTP</span></div><div class="card stat"><b id="expectedLoss">—</b><span>Expected loss / opening</span></div></div><div class="card priceStatus"><div><b id="priceMode">Steam snapshot</b><small id="priceUpdated">Built-in snapshot</small></div><button id="refreshPrices" class="secondary" type="button">REFRESH STEAM</button></div>
-    <details class="card dev"><summary>Dev / test controls</summary><div class="devrow"><button class="secondary" id="add100">+ $100</button><button class="secondary" id="open10">Open 10 instantly</button><button class="secondary" id="resetSave">Reset save</button></div></details>
-  </section>
 
-  <section id="inventoryView" class="view"><div class="section-title"><h2>Inventory</h2><small id="invCount">0 items</small></div><div class="filterbar"><select id="rarityFilter"><option value="all">All rarities</option><option>Mil-Spec</option><option>Restricted</option><option>Classified</option><option>Covert</option><option>Special</option></select><select id="stFilter"><option value="all">All</option><option value="st">StatTrak™</option><option value="normal">Non-StatTrak</option></select><select id="sortFilter"><option value="new">Newest</option><option value="rarity">Highest rarity</option><option value="value">Highest value</option><option value="float">Lowest float</option></select></div><details class="card bulkSell"><summary>Bulk sell by rarity</summary><div class="bulkGrid"><select id="bulkRarity"><option value="Mil-Spec">Mil-Spec</option><option value="Restricted">Restricted</option><option value="Classified">Classified</option><option value="Covert">Covert</option><option value="Special">Gold / Special</option></select><select id="bulkST"><option value="all">All</option><option value="st">StatTrak™</option><option value="normal">Non-StatTrak</option></select></div><div id="bulkPreview" class="bulkPreview">0 items · $0.00 gross · $0.00 Steam net</div><button id="bulkSellBtn" class="dangerBtn" type="button" disabled>SELL MATCHING ITEMS</button></details><div id="inventory" class="inventory"></div></section>
+    <div class="section-title"><h2>Developer tools</h2><button class="textbtn" id="devToggle">SHOW</button></div>
+    <section class="card devpanel" id="devPanel" hidden>
+      <div class="devrow"><button class="secondary" id="add100">+$100</button><button class="secondary" id="add10k">+$10,000</button><button class="secondary" id="open10">OPEN 10</button><button class="secondary" id="open100">OPEN 100</button><button class="dangerbtn" id="resetSave">RESET SAVE</button></div>
+      <p class="note">Batch opens are committed to IndexedDB in one transaction so testing large inventories no longer performs a full save/render per item.</p>
+    </section>
+  </main>
 
-  <section id="tradeView" class="view"><div class="section-title"><h2>Trade-Up Contract</h2><small>Kilowatt collection</small></div><div class="section-sub">Normal trade-ups use 10 matching inputs. Covert-to-gold contracts use 5 matching Covert inputs, and only work for collections with a Rare Special Item pool. Output float uses the CS2 trade-up formula.</div><div class="contract"><div class="contract-top"><div><div class="eyebrow">Selected</div><div class="contract-count"><span id="tradeCount">0</span>/<span id="tradeNeed">10</span></div></div><button id="clearTrade" class="secondary">CLEAR</button></div><div class="progress"><i id="tradeProgress"></i></div><div id="tradeRule" class="contract-meta">Choose your first eligible skin.</div><button id="tradeExecute" class="openbtn" disabled>SUBMIT CONTRACT</button></div><div class="section-title"><h2>Possible outputs</h2><small id="tradeAvg">—</small></div><div id="tradeOutputs" class="output-grid"><div class="card empty">Select inputs to preview the exact output pool.</div></div><div class="section-title"><h2>Eligible inventory</h2><small id="tradeInvMeta">tap checkboxes</small></div><div class="filterbar trade-filterbar"><select id="tradeRarityFilter"><option value="all">All rarities</option><option>Mil-Spec</option><option>Restricted</option><option>Classified</option><option>Covert</option></select><select id="tradeSTFilter"><option value="all">All</option><option value="st">StatTrak™</option><option value="normal">Non-StatTrak</option></select><select id="tradeSortFilter"><option value="new">Newest</option><option value="rarity">Highest rarity</option><option value="value">Highest value</option><option value="float">Lowest float</option></select></div><div id="tradeList" class="trade-list"></div></section>
-  <section id="statsView" class="view"><div class="section-title"><h2>Statistics</h2><small>all-time save</small></div><div class="grid2"><div class="card stat"><b id="sCases">0</b><span>Opened</span></div><div class="card stat"><b id="sGold">0</b><span>Golds</span></div><div class="card stat"><b id="sST">0</b><span>StatTrak</span></div><div class="card stat"><b id="sSold">$0.00</b><span>Steam net sold</span></div></div><div class="section-title"><h2>Recent openings</h2><small>last 50</small></div><div class="card" id="history"></div></section>
-  <section id="dataView" class="view"><div class="section-title"><h2>Kilowatt contents</h2><small>17 weapons + Kukri pool</small></div><div id="contents" class="contents-grid"></div><div class="section-title"><h2>Simulation model</h2><small>v0.6 foundation</small></div><div class="card note"><b>v0.6 Stage 5:</b> core simulation math is now collection-aware. Unboxed floats use the observed CS unbox wear-bucket distribution and dead-zone behavior, then remap through each finish's min/max. Trade-up output float uses normalized input position inside each input skin's own float range. Inventory instances now carry stable case/collection/item identifiers so future cases can share the same engine.<br><br>Steam valuation now uses the exact wear/StatTrak snapshot price with no invented within-wear multiplier. CaseLab attempts a limited live Steam Market refresh on launch and on demand; if Steam blocks browser access or rate-limits the request, the baked snapshot remains active. Float premiums are only added when comparable-sales data exists; Stage 5 keeps float valuation conservative and applies no unsupported within-wear premium. Pattern premiums are stored but not priced yet.<br><br><b>ROI:</b> Gross ROI is the market value of everything still owned plus the gross-equivalent value of sold items, divided by opening spend. Net liquidation ROI applies the 15% Steam sale fee. This prevents the fee-adjusted number from being confused with the pre-fee ROI figures commonly quoted by case calculators.<br><br><b>3D inspect:</b> Stage 5 activates the Kilowatt finish compositor: weapon artwork is projected consistently across the native mesh, rolled float drives deterministic wear, rolled pattern changes the wear placement, and the fixed studio rig uses a soft neutral ambient base plus one static key so the reverse side remains readable. Kukri items now have a native 3D blade instead of falling through to an unavailable-model message. EXACT ↗ remains the Source-2 reference while the native compositor is tuned toward parity.</div></section>
+  <main class="view" id="inventoryView">
+    <div class="section-title"><h2>Inventory</h2><small id="invCount">0 items</small></div>
+    <div class="filterbar">
+      <select id="rarityFilter" aria-label="Inventory rarity"><option value="all">All rarities</option><option>Mil-Spec</option><option>Restricted</option><option>Classified</option><option>Covert</option><option value="Special">Gold</option></select>
+      <select id="stFilter" aria-label="Inventory StatTrak"><option value="all">All</option><option value="st">StatTrak™</option><option value="normal">Non-StatTrak</option></select>
+      <select id="sortFilter" aria-label="Inventory sort"><option value="newest">Newest</option><option value="rarity">Highest rarity</option><option value="value">Highest value</option><option value="float">Lowest float</option></select>
+    </div>
+
+    <section class="card bulk-card">
+      <div class="bulk-head"><div><b>Bulk sell</b><small>Dump testing inventory by rarity</small></div><b id="bulkPreview">0 items · $0.00 gross · $0.00 net</b></div>
+      <div class="filterbar compact">
+        <select id="bulkRarity"><option>Mil-Spec</option><option>Restricted</option><option>Classified</option><option>Covert</option><option value="Special">Gold</option></select>
+        <select id="bulkST"><option value="all">All</option><option value="st">StatTrak™</option><option value="normal">Non-StatTrak</option></select>
+        <button class="secondary" id="bulkSell">SELL MATCHES</button>
+      </div>
+    </section>
+
+    <div class="inventory" id="inventory"></div>
+    <button class="secondary loadmore" id="invMore" hidden>LOAD MORE</button>
+  </main>
+
+  <main class="view" id="tradeView">
+    <div class="section-title"><h2>Trade Up Contract</h2><small id="tradeCount">0 / 10</small></div>
+    <section class="card trade-summary">
+      <div><span class="eyebrow">SELECTED INPUTS</span><b id="tradeRule">Select a skin to begin</b><small id="tradeAvg">—</small></div>
+      <button class="secondary" id="clearTrade">CLEAR</button>
+    </section>
+    <div class="filterbar">
+      <select id="tradeRarityFilter"><option value="all">All rarities</option><option>Mil-Spec</option><option>Restricted</option><option>Classified</option><option>Covert</option></select>
+      <select id="tradeSTFilter"><option value="all">All</option><option value="st">StatTrak™</option><option value="normal">Non-StatTrak</option></select>
+      <select id="tradeSortFilter"><option value="newest">Newest</option><option value="rarity">Highest rarity</option><option value="value">Highest value</option><option value="float">Lowest float</option></select>
+    </div>
+    <div class="section-title"><h2>Possible outputs</h2><small>collection-weighted</small></div>
+    <div class="card outcomes" id="tradeOutcomes"><div class="empty">Select contract inputs to preview outcomes.</div></div>
+    <button class="openbtn" id="tradeExecute" disabled>COMPLETE CONTRACT</button>
+    <div class="section-title"><h2>Eligible inventory</h2><small id="tradeEligible">—</small></div>
+    <div class="inventory tradeinventory" id="tradeInventory"></div>
+    <button class="secondary loadmore" id="tradeMore" hidden>LOAD MORE</button>
+  </main>
+
+  <main class="view" id="statsView">
+    <div class="section-title"><h2>Career statistics</h2><small>persistent</small></div>
+    <div class="statgrid">
+      <div class="card stat"><b id="sCases">0</b><span>cases opened</span></div><div class="card stat"><b id="sGold">0</b><span>golds opened</span></div><div class="card stat"><b id="sST">0</b><span>StatTrak drops</span></div><div class="card stat"><b id="sSold">$0.00</b><span>Steam net received</span></div>
+      <div class="card stat"><b id="invValue">$0.00</b><span>inventory gross</span></div><div class="card stat"><b id="netValue">$0.00</b><span>inventory net</span></div><div class="card stat"><b id="bestStat">—</b><span>all-time best case pull</span></div><div class="card stat"><b id="theoryRoi">—</b><span>theoretical current gross RTP</span><small id="theoryCoverage" class="stat-sub">pricing coverage —</small></div>
+    </div>
+    <div class="section-title"><h2>Recent acquisitions</h2><small>last 100 shown</small></div>
+    <section class="card" id="history"></section>
+  </main>
+
+  <main class="view" id="dataView">
+    <div class="section-title"><h2>Simulation data</h2><small>v0.6 foundation</small></div>
+    <section class="card data-stack">
+      <div class="data-row"><span>Storage</span><b>IndexedDB</b></div>
+      <div class="data-row"><span>Old save migration</span><b id="migrationStatus">checking…</b></div>
+      <div class="data-row"><span>Float generator</span><b>Source-style RNG + empirical unbox buckets</b></div>
+      <div class="data-row"><span>Unbox paint seed</span><b>0–999</b></div>
+      <div class="data-row"><span>Trade-up paint seed</span><b>0–1000</b></div>
+      <div class="data-row"><span>Trade-up float</span><b>normalized-input formula</b></div>
+      <div class="data-row"><span>Steam fee</span><b>cent-aware 5% + CS2 10%</b></div>
+      <div class="data-row"><span>Price mode</span><b id="priceMode">snapshot</b></div>
+      <div class="data-row"><span>Last price update</span><b id="priceTime">—</b></div><div class="data-row"><span>Theoretical RTP pricing coverage</span><b id="dataTheoryCoverage">—</b></div>
+      <button class="secondary" id="priceRefresh">RETRY STEAM PRICE REFRESH</button>
+      <p class="note" id="priceNote">CaseLab attempts Valve's public priceoverview route directly. Steam normally blocks browser CORS, so the baked snapshot remains the safe fallback instead of silently using a third-party cash market.</p>
+    </section>
+
+    <div class="section-title"><h2>v0.6 completion gate</h2><small>no second case before these pass</small></div>
+    <section class="card blocker-list">
+      <div class="check goodcheck">✓ ID-based case / collection / gold-pool data model</div>
+      <div class="check goodcheck">✓ IndexedDB + v0.5.x save migration</div>
+      <div class="check goodcheck">✓ Source-style unbox float distribution and 32-bit float storage</div>
+      <div class="check goodcheck">✓ Current normalized trade-up float calculation</div>
+      <div class="check goodcheck">✓ Collection-aware mixed trade-up outcome engine</div>
+      <div class="check goodcheck">✓ Bulk sell by rarity + StatTrak state</div>
+      <div class="check pending">◌ All 17 Kilowatt Source-2-exact material recipes</div>
+      <div class="check pending">◌ Exact float-driven wear compositor + pattern transforms</div>
+      <div class="check pending">◌ Native Kukri mesh + all 13 finish recipes</div>
+    </section>
+    <p class="note">This repair build is intentionally labeled <b>v0.6.0 · Stage 5.1 Preview</b>. The final v0.6.0 label stays blocked until the native 3D finish/wear system is genuinely correct instead of pretending the current partial raw-map path is Source 2 exact.</p>
+  </main>
 </div>
-<div class="tabs"><div class="tabs-inner"><button class="tab active" data-view="openView">OPEN</button><button class="tab" data-view="inventoryView">INVENTORY</button><button class="tab" data-view="tradeView">TRADE UP</button><button class="tab" data-view="statsView">STATS</button><button class="tab" data-view="dataView">DATA</button></div></div>
-<div class="modal" id="modal"><div class="sheet"><div id="reveal" class="reveal"></div></div></div>
-<div class="viewerModal" id="viewerModal"><div class="viewerBar"><button class="secondary" id="viewerClose">✕</button><div class="viewerTitle"><b id="viewerName">3D Inspect</b><small id="viewerMeta"></small></div><button class="secondary" id="viewerExternal" title="Open true-to-game renderer">EXACT ↗</button></div><div class="viewerBody" id="nativeViewerBody"><div class="native3d" id="native3d"></div><div class="viewerLoading" id="viewerLoading">Loading native CS2 weapon mesh…</div><div class="viewerHud"><div class="viewerBadge inspectBadge"><div class="inspectRow"><span>Exterior</span><b id="viewerExterior">—</b></div><div class="inspectRow"><span>Float</span><b id="viewerFloat">0.00000000</b></div><div class="inspectRow"><span>Pattern</span><b id="viewerPattern">#0</b></div><small>1 finger: rotate · pinch: zoom</small></div><div class="viewerModes"><button id="viewerReset">RESET</button></div></div></div><div class="viewerFoot"><b>Native 3D:</b> Stage-5 Kilowatt finish + float/pattern wear preview with fixed studio lighting. <b>Kukri:</b> native 3D enabled. <b>EXACT ↗</b> remains the Source-2 reference renderer.</div></div>
-<div class="toast" id="toast"></div>
-<script src="catalog.js"></script>
-<script src="storage.js"></script>
-<script src="app.js"></script>
 
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}</script>
-<script type="module" src="viewer3d.js"></script>
-</body></html>
+<nav class="tabs"><div class="tabs-inner"><button class="tab active" data-view="openView">OPEN</button><button class="tab" data-view="inventoryView">INVENTORY</button><button class="tab" data-view="tradeView">TRADE UP</button><button class="tab" data-view="statsView">STATS</button><button class="tab" data-view="dataView">DATA</button></div></nav>
+
+<div class="modal" id="revealModal"><div class="sheet" id="revealSheet"><div id="reveal"></div></div></div>
+<div class="modal center-modal" id="confirmModal"><div class="confirm-card card"><h2 id="confirmTitle">Confirm</h2><p id="confirmText" class="note"></p><div class="confirm-summary" id="confirmSummary"></div><div class="actions"><button class="secondary" id="confirmCancel">CANCEL</button><button class="dangerbtn" id="confirmGo">CONFIRM</button></div></div></div>
+
+<div class="viewerModal" id="viewerModal">
+  <div class="viewerBar"><button class="secondary" id="viewerClose">✕</button><div class="viewerTitle"><b id="viewerName">3D Inspect</b><small id="viewerMeta"></small></div><button class="secondary" id="viewerExternal">EXACT ↗</button></div>
+  <div class="viewerBody"><div class="native3d" id="native3d"></div><div class="viewerLoading" id="viewerLoading">Loading…</div><div class="viewerHud"><div class="viewerBadge"><div class="inspectRow"><span>Exterior</span><b id="viewerExterior">—</b></div><div class="inspectRow"><span>Float</span><b id="viewerFloat">—</b></div><div class="inspectRow"><span>Pattern</span><b id="viewerPattern">—</b></div><small>1 finger: rotate · pinch: zoom</small></div><button id="viewerReset">RESET</button></div></div>
+  <div class="viewerFoot" id="viewerFoot">Native 3D material status appears here.</div>
+</div>
+<div class="toast" id="toast" aria-live="polite"></div>
+<script type="module" src="./js/app.js"></script>
+</body>
+</html>
