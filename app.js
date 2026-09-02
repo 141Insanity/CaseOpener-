@@ -26,6 +26,25 @@ const knives=[
  {name:'★ Kukri Knife | Vanilla',min:.06,max:.80,base:95},{name:'★ Kukri Knife | Fade',min:0,max:.08,base:182},{name:'★ Kukri Knife | Slaughter',min:.01,max:.26,base:130},{name:'★ Kukri Knife | Case Hardened',min:0,max:1,base:92,pattern:true},{name:'★ Kukri Knife | Crimson Web',min:.06,max:.80,base:78,pattern:true},{name:'★ Kukri Knife | Blue Steel',min:0,max:1,base:68},{name:'★ Kukri Knife | Stained',min:0,max:1,base:56},{name:'★ Kukri Knife | Night Stripe',min:.06,max:.80,base:48},{name:'★ Kukri Knife | Urban Masked',min:.06,max:.80,base:47},{name:'★ Kukri Knife | Scorched',min:.06,max:.80,base:44},{name:'★ Kukri Knife | Forest DDPAT',min:.06,max:.80,base:43},{name:'★ Kukri Knife | Boreal Forest',min:.06,max:.80,base:42},{name:'★ Kukri Knife | Safari Mesh',min:.06,max:.80,base:41}
 ].map(k=>({...k,rarity:'Special'}));
 const allDefs=[...skins,...knives];
+const catalog=window.CaseLabCatalog||{items:{},collections:{},goldPools:{}};
+const defByName=new Map(allDefs.map(d=>[d.name,d]));
+for(const d of allDefs){Object.assign(d,catalog.items?.[d.name]||{collectionId:'kilowatt',caseId:'kilowatt-case',defId:'kilowatt:'+d.name.toLowerCase().replace(/[^a-z0-9]+/g,'-')});}
+const cryptoU32=()=>{try{const a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]>>>0}catch(e){return Math.floor(Math.random()*4294967296)>>>0}};
+const rng01=()=>cryptoU32()/4294967296;
+const rngInt=(lo,hi)=>lo+Math.floor(rng01()*(hi-lo+1));
+// Observed crate/drop generation: 3/24/33/24/16 across the five source wear bands,
+// with the known 0.01 dead zones between generated bands before each skin min/max remap.
+const UNBOX_FLOAT_BANDS=[
+ {lo:0.00,hi:0.07,w:3},{lo:0.08,hi:0.15,w:24},{lo:0.16,hi:0.38,w:33},{lo:0.39,hi:0.45,w:24},{lo:0.46,hi:1.00,w:16}
+];
+function sourceUnboxFloat(){let roll=rng01()*100,acc=0,b=UNBOX_FLOAT_BANDS.at(-1);for(const x of UNBOX_FLOAT_BANDS){acc+=x.w;if(roll<acc){b=x;break}}return Math.fround(b.lo+rng01()*(b.hi-b.lo));}
+function rollUnboxedFloat(def){return Math.fround(def.min+sourceUnboxFloat()*(def.max-def.min));}
+function unboxPattern(){return rngInt(0,999)}
+function tradePattern(){return rngInt(0,1000)}
+function applyItemMeta(item){const m=catalog.items?.[item.name]||{};item.defId=item.defId||m.defId||null;item.weaponId=item.weaponId||m.weaponId||null;item.finishId=item.finishId||m.finishId||null;item.collectionId=item.collectionId||m.collectionId||'kilowatt';item.caseId=item.caseId||m.caseId||'kilowatt-case';item.paintKitId=item.paintKitId??m.paintKitId??null;return item}
+function migrateStateSchema(){state.inventory=(state.inventory||[]).map(applyItemMeta);state.history=(state.history||[]).map(h=>{const m=catalog.items?.[h.name]||{};return {...h,defId:h.defId||m.defId||null,collectionId:h.collectionId||m.collectionId||'kilowatt',caseId:h.caseId||m.caseId||'kilowatt-case'}});state.schemaVersion=2;}
+function defForItem(item){return (item?.defId&&allDefs.find(d=>d.defId===item.defId))||defByName.get(item?.name)||null}
+
 let images={},caseImage='';
 const defaultState={balance:500,inventory:[],opened:0,spent:0,soldNet:0,golds:0,stCount:0,history:[]};
 let state=structuredClone(defaultState),rolling=false,rollTimer=null,pendingReveal=null,tradeSelected=new Set(),viewerURL='',audioCtx=null,tickTimers=[];
@@ -43,7 +62,7 @@ function revealSound(r){ensureAudio();const seq=r==='Special'?[520,660,880,1100]
 function money(n){return '$'+Number(n||0).toFixed(2)}
 function wearIndex(f){return f<.07?0:f<.15?1:f<.38?2:f<.45?3:4}
 function wearBounds(i){return [[0,.07],[.07,.15],[.15,.38],[.38,.45],[.45,1]][i]}
-function rollRarity(){let r=Math.random()*100;if(r<79.92)return'Mil-Spec';if(r<95.90)return'Restricted';if(r<99.10)return'Classified';if(r<99.74)return'Covert';return'Special'}
+function rollRarity(){let r=rng01()*100;if(r<79.92)return'Mil-Spec';if(r<95.90)return'Restricted';if(r<99.10)return'Classified';if(r<99.74)return'Covert';return'Special'}
 function estimate(s,float,st){if(s.rarity==='Special'){let q=1-((float-s.min)/(s.max-s.min||1)),v=s.base*(.88+q*.24);if(st)v*=1.45;return Math.max(1,v)}const wi=wearIndex(float),arr=st?s.p.st:s.p.normal,base=arr[wi]??arr.find(x=>x!=null)??.03,[lo,hi]=wearBounds(wi),validLo=Math.max(lo,s.min),validHi=Math.min(hi,s.max),pos=(float-validLo)/Math.max(.000001,validHi-validLo),strength=[.22,.10,.07,.05,.09][wi];return Math.max(.03,base*(1+strength*(.5-pos)))}
 function rarityColor(r){return RC[r]||'#aaa'}
 function imageFor(name){return images[name]||''}
@@ -65,11 +84,11 @@ async function loadImages(){
 function openOne(charge=true){
  if(charge&&state.balance<OPEN_COST){toast('Not enough balance');return null}
  if(charge){state.balance-=OPEN_COST;state.spent+=OPEN_COST;state.opened++}
- const rarity=rollRarity(),pool=rarity==='Special'?knives:skins.filter(x=>x.rarity===rarity),s=pool[Math.floor(Math.random()*pool.length)],float=s.min+Math.random()*(s.max-s.min),st=Math.random()<ST_CHANCE,pattern=Math.floor(Math.random()*1000),wi=wearIndex(float),value=estimate(s,float,st);
- const item={id:crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random(),name:s.name,rarity,float,wear:wearNames[wi],st,pattern,value,ts:Date.now(),patternSensitive:!!s.pattern};
+ const rarity=rollRarity(),pool=rarity==='Special'?knives:skins.filter(x=>x.rarity===rarity),s=pool[Math.floor(rng01()*pool.length)],float=rollUnboxedFloat(s),st=rng01()<ST_CHANCE,pattern=unboxPattern(),wi=wearIndex(float),value=estimate(s,float,st);
+ const item=applyItemMeta({id:crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+rng01(),name:s.name,rarity,float,wear:wearNames[wi],st,pattern,value,ts:Date.now(),patternSensitive:!!s.pattern,origin:'Case Opening'});
  state.inventory.unshift(item);if(rarity==='Special')state.golds++;if(st)state.stCount++;state.history.unshift({name:item.name,rarity,value,wear:item.wear,ts:item.ts});state.history=state.history.slice(0,50);save();return item;
 }
-function randomVisualItem(){const r=rollRarity(),pool=r==='Special'?knives:skins.filter(x=>x.rarity===r),d=pool[Math.floor(Math.random()*pool.length)];return {name:d.name,rarity:d.rarity}}
+function randomVisualItem(){const r=rollRarity(),pool=r==='Special'?knives:skins.filter(x=>x.rarity===r),d=pool[Math.floor(rng01()*pool.length)];return {name:d.name,rarity:d.rarity}}
 function cardHTML(x){const img=imageFor(x.name),fallback=x.rarity==='Special'?'🔪':'🔫';return `<div class="roll-card" style="--rar:${rarityColor(x.rarity)}">${img?`<img src="${img}" alt="">`:`<div style="height:88px;display:grid;place-items:center;font-size:34px">${fallback}</div>`}<div class="tiny-name">${x.name.replace('★ ','')}</div></div>`}
 function finishRollNow(){if(!rolling)return;tickTimers.forEach(clearTimeout);tickTimers=[];clearTimeout(rollTimer);rollTimer=null;rolling=false;$('#rollTrack').style.transition='none';const shell=$('#rollShell');$('#openBtn').disabled=false;$('#rollStatus').textContent='Opened';const item=pendingReveal;pendingReveal=null;setTimeout(()=>{shell.classList.remove('show');showReveal(item)},120)}
 function animateOpen(item){
@@ -89,20 +108,33 @@ function skinshotterURL(item){
  return `https://skinshotter.com/${cat}/${weapPath}/${finish}`;
 }
 function nextRarity(r){return {'Mil-Spec':'Restricted','Restricted':'Classified','Classified':'Covert','Covert':'Special'}[r]||null}
-function collectionHasGoldPool(){return knives.length>0}
+function collectionHasGoldPool(collectionId){return !!Object.values(catalog.goldPools||{}).find(p=>p.collectionId===collectionId)}
 function tradeRequiredCount(rarity){return rarity==='Covert'?5:10}
-function tradeEligible(item){if(item.rarity==='Covert')return collectionHasGoldPool();return !!nextRarity(item.rarity)&&item.rarity!=='Special'}
-function tradeOutputDefs(){if(!tradeSelected.size)return[];const first=state.inventory.find(x=>tradeSelected.has(x.id));if(!first)return[];if(first.rarity==='Covert')return collectionHasGoldPool()?knives:[];const nr=nextRarity(first.rarity);return skins.filter(x=>x.rarity===nr)}
-function tradeAvgFloat(){const arr=state.inventory.filter(x=>tradeSelected.has(x.id));return arr.length?arr.reduce((a,x)=>a+x.float,0)/arr.length:0}
-function projectedTradeItem(def){const avg=tradeAvgFloat(),f=avg*(def.max-def.min)+def.min,st=state.inventory.find(x=>tradeSelected.has(x.id))?.st||false;return {float:f,wear:wearNames[wearIndex(f)],value:estimate(def,f,st),st}}
+function tradeEligible(item){if(item.rarity==='Covert')return collectionHasGoldPool(item.collectionId);return !!nextRarity(item.rarity)&&item.rarity!=='Special'}
+function collectionInputCounts(){const counts={};for(const x of state.inventory.filter(x=>tradeSelected.has(x.id))){counts[x.collectionId]=(counts[x.collectionId]||0)+1}return counts}
+function tradeOutputEntries(){
+ const selected=state.inventory.filter(x=>tradeSelected.has(x.id));if(!selected.length)return[];const first=selected[0],counts=collectionInputCounts(),total=selected.length,entries=[];
+ for(const [collectionId,count] of Object.entries(counts)){
+   let defs=[];
+   if(first.rarity==='Covert'){if(collectionHasGoldPool(collectionId))defs=knives.filter(d=>d.collectionId===collectionId)}
+   else {const nr=nextRarity(first.rarity);defs=skins.filter(d=>d.rarity===nr&&d.collectionId===collectionId)}
+   if(!defs.length)continue;const collectionChance=count/total;for(const d of defs)entries.push({def:d,chance:collectionChance/defs.length});
+ }
+ return entries;
+}
+function tradeOutputDefs(){return tradeOutputEntries().map(x=>x.def)}
+function normalizedInput(item){const d=defForItem(item);if(!d||d.max<=d.min)return 0;return Math.max(0,Math.min(1,(item.float-d.min)/(d.max-d.min)))}
+function tradeAvgFloat(){const arr=state.inventory.filter(x=>tradeSelected.has(x.id));return arr.length?arr.reduce((a,x)=>a+normalizedInput(x),0)/arr.length:0}
+function projectedTradeItem(def){const avg=tradeAvgFloat(),f=Math.fround(avg*(def.max-def.min)+def.min),st=state.inventory.find(x=>tradeSelected.has(x.id))?.st||false;return {float:f,wear:wearNames[wearIndex(f)],value:estimate(def,f,st),st}}
+function pickWeightedOutput(entries){let r=rng01(),acc=0;for(const e of entries){acc+=e.chance;if(r<acc)return e.def}return entries.at(-1)?.def||null}
 function resetAutoTradeFilters(){const r=$('#tradeRarityFilter'),st=$('#tradeSTFilter');if(r)r.value='all';if(st)st.value='all'}
 function renderTrade(){
  const selected=state.inventory.filter(x=>tradeSelected.has(x.id));const first=selected[0];const need=first?tradeRequiredCount(first.rarity):10;
  $('#tradeCount').textContent=selected.length;$('#tradeNeed').textContent=need;$('#tradeProgress').style.width=Math.min(100,selected.length/need*100)+'%';
  $('#tradeExecute').disabled=selected.length!==need;
- $('#tradeRule').textContent=!first?'Choose your first eligible skin.':first.rarity==='Covert'?`${first.st?'StatTrak™ ':''}Covert · 5-item Rare Special contract · Kukri Knife pool`:`${first.rarity} · ${first.st?'StatTrak™ only':'non-StatTrak only'} · next: ${nextRarity(first.rarity)}`;
- const avg=tradeAvgFloat();$('#tradeAvg').textContent=selected.length?`Avg input float ${avg.toFixed(8)}`:'—';const outs=tradeOutputDefs();
- $('#tradeOutputs').innerHTML=outs.length?outs.map(d=>{const pr=projectedTradeItem(d),img=imageFor(d.name);return `<div class="output" style="--rar:${rarityColor(d.rarity)}">${img?`<img src="${img}" alt="">`:'<div>🔪</div>'}<div><b>${pr.st?'StatTrak™ ':''}${d.name}</b><small>${pr.wear} · ${pr.float.toFixed(8)} · est. ${money(pr.value)}</small></div><div class="chance">${(100/outs.length).toFixed(2)}%</div></div>`}).join(''):'<div class="card empty">Select inputs to preview the exact output pool.</div>';
+ $('#tradeRule').textContent=!first?'Choose your first eligible skin.':first.rarity==='Covert'?`${first.st?'StatTrak™ ':''}Covert · 5-item Rare Special contract · collection-weighted pool`:`${first.rarity} · ${first.st?'StatTrak™ only':'non-StatTrak only'} · next: ${nextRarity(first.rarity)}`;
+ const avg=tradeAvgFloat();$('#tradeAvg').textContent=selected.length?`Normalized avg ${avg.toFixed(8)}`:'—';const entries=tradeOutputEntries(),outs=entries.map(e=>e.def);
+ $('#tradeOutputs').innerHTML=entries.length?entries.map(e=>{const d=e.def,pr=projectedTradeItem(d),img=imageFor(d.name);return `<div class="output" style="--rar:${rarityColor(d.rarity)}">${img?`<img src="${img}" alt="">`:'<div>🔪</div>'}<div><b>${pr.st?'StatTrak™ ':''}${d.name}</b><small>${pr.wear} · ${pr.float.toFixed(8)} · est. ${money(pr.value)}</small></div><div class="chance">${(e.chance*100).toFixed(2)}%</div></div>`}).join(''):'<div class="card empty">Select inputs to preview the exact output pool.</div>';
  let elig=state.inventory.filter(tradeEligible),rf=$('#tradeRarityFilter')?.value||'all',sf=$('#tradeSTFilter')?.value||'all',sort=$('#tradeSortFilter')?.value||'new';
  const isCompatible=x=>!first||(x.rarity===first.rarity&&x.st===first.st)||tradeSelected.has(x.id);
  const sorter=(a,b)=>{const rr={'Mil-Spec':1,'Restricted':2,'Classified':3,'Covert':4,'Special':5};if(sort==='rarity')return (rr[b.rarity]||0)-(rr[a.rarity]||0)||(b.value-a.value);if(sort==='value')return b.value-a.value;if(sort==='float')return a.float-b.float;return (b.ts||0)-(a.ts||0)};
@@ -129,7 +161,7 @@ function renderTrade(){
  });
 }
 function executeTrade(){
- const inputs=state.inventory.filter(x=>tradeSelected.has(x.id));const first=inputs[0];if(!first)return toast('Select contract inputs');const need=tradeRequiredCount(first.rarity);if(inputs.length!==need)return toast(`Select exactly ${need} skins`);if(inputs.some(x=>x.rarity!==first.rarity||x.st!==first.st))return toast('Inputs must match rarity and StatTrak type');if(first.rarity==='Covert'&&!collectionHasGoldPool())return toast('This collection has no Rare Special Item pool');const outs=tradeOutputDefs();if(!outs.length)return toast('No valid output');const def=outs[Math.floor(Math.random()*outs.length)],avg=tradeAvgFloat(),float=avg*(def.max-def.min)+def.min,pattern=Math.floor(Math.random()*1000),wi=wearIndex(float),value=estimate(def,float,first.st);const item={id:crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random(),name:def.name,rarity:def.rarity,float,wear:wearNames[wi],st:first.st,pattern,value,ts:Date.now(),patternSensitive:!!def.pattern,origin:first.rarity==='Covert'?'Covert Trade-Up':'Trade-Up'};const ids=new Set(inputs.map(x=>x.id));state.inventory=state.inventory.filter(x=>!ids.has(x.id));state.inventory.unshift(item);state.history.unshift({name:item.name,rarity:item.rarity,value:item.value,wear:item.wear,ts:item.ts,origin:item.origin});state.history=state.history.slice(0,50);tradeSelected.clear();resetAutoTradeFilters();save();showReveal(item);renderTrade();toast(first.rarity==='Covert'?'Covert contract completed':'Trade-Up completed');
+ const inputs=state.inventory.filter(x=>tradeSelected.has(x.id));const first=inputs[0];if(!first)return toast('Select contract inputs');const need=tradeRequiredCount(first.rarity);if(inputs.length!==need)return toast(`Select exactly ${need} skins`);if(inputs.some(x=>x.rarity!==first.rarity||x.st!==first.st))return toast('Inputs must match rarity and StatTrak type');if(first.rarity==='Covert'&&inputs.some(x=>!collectionHasGoldPool(x.collectionId)))return toast('One or more input collections have no Rare Special Item pool');const entries=tradeOutputEntries();if(!entries.length)return toast('No valid output');const def=pickWeightedOutput(entries),avg=tradeAvgFloat(),float=Math.fround(avg*(def.max-def.min)+def.min),pattern=tradePattern(),wi=wearIndex(float),value=estimate(def,float,first.st);const item=applyItemMeta({id:crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+rng01(),name:def.name,rarity:def.rarity,float,wear:wearNames[wi],st:first.st,pattern,value,ts:Date.now(),patternSensitive:!!def.pattern,origin:first.rarity==='Covert'?'Covert Trade-Up':'Trade-Up'});const ids=new Set(inputs.map(x=>x.id));state.inventory=state.inventory.filter(x=>!ids.has(x.id));state.inventory.unshift(item);state.history.unshift({name:item.name,rarity:item.rarity,value:item.value,wear:item.wear,ts:item.ts,origin:item.origin,defId:item.defId,collectionId:item.collectionId,caseId:item.caseId});state.history=state.history.slice(0,50);tradeSelected.clear();resetAutoTradeFilters();save();showReveal(item);renderTrade();toast(first.rarity==='Covert'?'Covert contract completed':'Trade-Up completed');
 }
 function renderContents(){const el=$('#contents');if(!el)return;el.innerHTML=skins.map(d=>{const img=imageFor(d.name);const vals=d.p.normal.filter(v=>v!=null);return `<div class="content-card" style="--rar:${rarityColor(d.rarity)}"><div class="content-art">${img?`<img src="${img}" alt="${d.name}">`:'🔫'}</div><b>${d.name}</b><small>${d.rarity} · float ${d.min.toFixed(2)}–${d.max.toFixed(3)}<br>${money(Math.min(...vals))}–${money(Math.max(...vals))} wear snapshot</small></div>`}).join('')+`<div class="content-card" style="--rar:${rarityColor('Special')}"><div class="content-art" style="font-size:36px">🔪</div><b>★ Kukri Knife finishes</b><small>13 finishes · rare special pool</small></div>`}
 function openExact3D(item){
@@ -185,7 +217,9 @@ async function bootstrapV060(){
     if(!window.CaseLabStorage) throw new Error('Storage module unavailable');
     const boot=await window.CaseLabStorage.bootstrap(defaultState);
     state=boot.state;
+    migrateStateSchema();
     storageReady=true;
+    window.CaseLabStorage.saveState(state).catch(()=>{});
     if(boot.migrated){toast('v0.5.6 save migrated to v0.6 storage');}
   }catch(e){
     console.warn('v0.6 storage bootstrap failed; using temporary in-memory state',e);
