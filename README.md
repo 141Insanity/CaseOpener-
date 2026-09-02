@@ -1,14 +1,20 @@
-# CaseLab v0.6.0 — Stage 5.2 Flat Repair Build
+# CaseLab v0.6.0 — Stage 6 Flat Build
 
-This build fixes the GitHub mobile-upload failure caused by nested runtime folders.
+This build stays **flat** for easier mobile GitHub uploads: no nested runtime folders.
 
 ## Upload
-Upload every file in this ZIP directly to the repository root. There are **no subfolders**.
+Upload every file in this ZIP directly to the repository root.
 
-Required files include `index.html`, `app.css`, the JavaScript modules, and the JSON data files.
+## Stage 6 focus
+- Keeps the Stage 5.2 flat-file repair structure.
+- Changes inspect lighting to a **camera-space / viewer-relative setup** so rotating the weapon should not make the back side collapse into near-black.
+- Adds a small **reference finish** image inside inspect mode so unsupported local recipes still show what the intended finish is.
+- Replaces the Kukri hard-fail with a simple local inspect proxy so knife inspection is no longer just a broken placeholder.
+- Exact Source-2 finish parity is **still not claimed** for unsupported recipes.
 
-## Stage 5.2 status
-- Restores the normal CaseLab styling and tab layout when all files are uploaded to the repo root.
-- Keeps IndexedDB, Stage-2 simulation math, Stage-3 economy/bulk selling, and the Stage-4 viewer foundation.
-- Keeps the Stage-5.1 lighting/material repair work.
-- Final Source-2-accurate skins and verified native Kukri remain v0.6 blockers; unsupported finishes deliberately do not pretend to be exact.
+## What to test
+1. Open a few cases and inspect both a gun and a Kukri.
+2. Rotate the item front to back and check whether brightness stays much more consistent.
+3. Confirm the top of the weapon stays in frame and zooming no longer clips as aggressively.
+4. Confirm the reference-finish thumbnail appears in inspect mode.
+5. Tell me which skins still need true local recipes next so the following stage can target them directly.

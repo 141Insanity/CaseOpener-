@@ -214,7 +214,11 @@ async function loadImages(){
 
 function skinshotterURL(item){const d=defOf(item),raw=d.name.replace('★ ','');const [weapon,finishRaw='']=raw.split(' | '),slug=x=>x.toLowerCase().replace(/™/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');const cats={'Dual Berettas':'pistols','Glock-18':'pistols','Five-SeveN':'pistols','Tec-9':'pistols','USP-S':'pistols','Zeus x27':'pistols','MAC-10':'smgs','UMP-45':'smgs','MP7':'smgs','Nova':'heavy','XM1014':'heavy','Sawed-Off':'heavy','SSG 08':'rifles','M4A4':'rifles','M4A1-S':'rifles','AWP':'rifles','AK-47':'rifles','Kukri Knife':'knives'};return `https://skinshotter.com/${cats[weapon]||'rifles'}/${weapon==='Kukri Knife'?'kukri':slug(weapon)}/${slug(finishRaw||'vanilla')}`}
 function openInspector(item){
-  const d=defOf(item);$('#viewerName').textContent=(item.st?'StatTrak™ ':'')+d.name;$('#viewerMeta').textContent=`${wearName(item.float)} · ${Number(item.float).toFixed(8)} · Pattern #${item.pattern}`;$('#viewerExterior').textContent=`${wearName(item.float)} (${market.wearAbbr(item.float)})`;$('#viewerFloat').textContent=Number(item.float).toFixed(8);$('#viewerPattern').textContent=`#${item.pattern}${item.st?' · StatTrak™':''}`;$('#viewerExternal').dataset.url=skinshotterURL(item);$('#viewerModal').classList.add('show');viewer.open(item);
+  const d=defOf(item),img=imageFor(d);$('#viewerName').textContent=(item.st?'StatTrak™ ':'')+d.name;$('#viewerMeta').textContent=`${wearName(item.float)} · ${Number(item.float).toFixed(8)} · Pattern #${item.pattern}`;$('#viewerExterior').textContent=`${wearName(item.float)} (${market.wearAbbr(item.float)})`;$('#viewerFloat').textContent=Number(item.float).toFixed(8);$('#viewerPattern').textContent=`#${item.pattern}${item.st?' · StatTrak™':''}`;$('#viewerExternal').dataset.url=skinshotterURL(item);
+  const ref=$('#viewerReference'),refImg=$('#viewerReferenceImg'),refCap=$('#viewerReferenceText');
+  if(img){ref.hidden=false;refImg.src=img;refImg.alt=d.name;refCap.textContent='Reference finish preview';}
+  else {ref.hidden=true;refImg.removeAttribute('src');refCap.textContent='';}
+  $('#viewerModal').classList.add('show');viewer.open(item);
 }
 
 function askConfirm(title,text,summary,danger=false){
