@@ -1,0 +1,25 @@
+{
+  "name": "CaseLab",
+  "version": "0.6.0-stage1",
+  "stage": 1,
+  "storage": {
+    "engine": "IndexedDB",
+    "database": "caselab",
+    "schemaVersion": 1,
+    "legacyKey": "caselab-kilowatt-v01",
+    "legacyPreserved": true
+  },
+  "scope": [
+    "multi-file project foundation",
+    "IndexedDB persistence",
+    "automatic v0.5.6 save migration",
+    "existing v0.5.6 gameplay preserved"
+  ],
+  "deferred": [
+    "new float RNG",
+    "2026 trade-up math",
+    "live Steam pricing",
+    "final 3D skin compositor",
+    "local 3D asset bundle"
+  ]
+}
