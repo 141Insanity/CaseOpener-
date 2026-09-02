@@ -1,4 +1,4 @@
-CaseLab v0.6.0 – Stage 7
+CaseLab v0.6.0 – Stage 8
 
 What this stage targets
 - Fix the inspect viewer so Kilowatt skins visibly render on the native 3D models.

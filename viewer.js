@@ -15,7 +15,7 @@ export class CaseLabViewer{
     r.setPixelRatio(Math.min(devicePixelRatio||1,2));
     r.outputColorSpace=THREE.SRGBColorSpace;
     r.toneMapping=THREE.ACESFilmicToneMapping;
-    r.toneMappingExposure=1.18;
+    r.toneMappingExposure=1.28;
     r.sortObjects=true;
     this.host.appendChild(r.domElement);
 
@@ -27,13 +27,13 @@ export class CaseLabViewer{
     this.controls.enableDamping=true;this.controls.dampingFactor=.08;this.controls.enablePan=false;this.controls.screenSpacePanning=false;
     this.controls.touches={ONE:THREE.TOUCH.ROTATE,TWO:THREE.TOUCH.DOLLY_ROTATE};
 
-    // Camera-space light rig: the key/fill travel with the camera so the back of the weapon
-    // stays readable when the user rotates the model.
-    const hemi=new THREE.HemisphereLight(0xf4f7ff,0x08111d,.52);this.scene.add(hemi);
-    const ambient=new THREE.AmbientLight(0xffffff,.68);this.scene.add(ambient);
-    this.headKey=new THREE.DirectionalLight(0xffffff,1.9);this.headKey.position.set(.42,.62,1.4);this.camera.add(this.headKey);
-    this.headFill=new THREE.PointLight(0xe6edff,1.18,0,2);this.headFill.position.set(-.58,-.08,1.06);this.camera.add(this.headFill);
-    const rim=new THREE.DirectionalLight(0x8fb1ff,.18);rim.position.set(-1.1,1.2,-1.0);this.scene.add(rim);
+    // Static inspect lighting: bright, camera-adjacent, and intentionally simple so
+    // the model stays readable from front and back without dramatic falloff.
+    const hemi=new THREE.HemisphereLight(0xf7faff,0x0b1220,.62);this.scene.add(hemi);
+    const ambient=new THREE.AmbientLight(0xffffff,.92);this.scene.add(ambient);
+    this.headKey=new THREE.DirectionalLight(0xffffff,2.15);this.headKey.position.set(.22,.18,1.45);this.camera.add(this.headKey);
+    this.headFill=new THREE.PointLight(0xf3f7ff,1.45,0,2);this.headFill.position.set(-.18,.04,1.08);this.camera.add(this.headFill);
+    const softBack=new THREE.DirectionalLight(0x9bb7ff,.18);softBack.position.set(-.42,.2,.92);this.camera.add(softBack);
 
     this.resizeObs=new ResizeObserver(()=>this.resize(false));this.resizeObs.observe(this.host);
   }
@@ -121,10 +121,12 @@ export class CaseLabViewer{
     const rand=this.seeded(item,def,7);
 
     if(name.includes('chrome cannon'))return this.canvasTexture((ctx,w,h)=>{
-      const g=ctx.createLinearGradient(0,0,w,h);g.addColorStop(0,'#f8fbff');g.addColorStop(.18,'#ced7e5');g.addColorStop(.36,'#666e7a');g.addColorStop(.58,'#edf2f8');g.addColorStop(.78,'#7b8491');g.addColorStop(1,'#f7fafc');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
-      this.drawRects(ctx,w,h,rand,20,['#bb2029','#ef6d3c','#101317'],60,240,18,60,.65);
-      this.drawStrokes(ctx,w,h,rand,12,['rgba(255,255,255,.35)','rgba(40,48,62,.55)'],6);
-      ctx.globalAlpha=.18;ctx.fillStyle='#ffffff';for(let i=0;i<8;i++)ctx.fillRect(i*w/8,0,w/32,h);ctx.globalAlpha=1;
+      const g=ctx.createLinearGradient(0,0,w,0);g.addColorStop(0,'#f4f6fb');g.addColorStop(.14,'#aab2bf');g.addColorStop(.32,'#f7fbff');g.addColorStop(.55,'#6d7480');g.addColorStop(.75,'#f2f6fb');g.addColorStop(1,'#9ba4b3');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+      ctx.fillStyle='rgba(255,255,255,.24)';for(let i=0;i<11;i++)ctx.fillRect(i*w/10,0,w/48,h);
+      ctx.fillStyle='rgba(25,28,33,.55)';ctx.fillRect(0,h*.5,w,h*.08);
+      ctx.fillStyle='rgba(160,20,28,.92)';ctx.beginPath();ctx.moveTo(w*.3,h*.54);ctx.lineTo(w*.54,h*.36);ctx.lineTo(w*.7,h*.45);ctx.lineTo(w*.5,h*.63);ctx.closePath();ctx.fill();
+      ctx.fillStyle='rgba(240,115,58,.72)';ctx.fillRect(w*.42,h*.42,w*.11,h*.18);
+      this.drawStrokes(ctx,w,h,rand,9,['rgba(255,255,255,.16)','rgba(30,35,45,.20)'],5);
     });
 
     if(name.includes('inheritance'))return this.canvasTexture((ctx,w,h)=>{
@@ -160,15 +162,15 @@ export class CaseLabViewer{
     });
 
     if(name.includes('just smile'))return this.canvasTexture((ctx,w,h)=>{
-      ctx.fillStyle='#18202d';ctx.fillRect(0,0,w,h);
-      this.drawRects(ctx,w,h,rand,14,['#ffcf40','#57d2ff','#f36aa8','#44536b'],40,180,40,140,.55);
-      for(let i=0;i<6;i++){
-        const x=100+rand()*(w-200),y=100+rand()*(h-200),r=28+rand()*44;
-        ctx.fillStyle='rgba(255,210,68,.85)';ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();
-        ctx.fillStyle='rgba(20,27,37,.9)';ctx.beginPath();ctx.arc(x-r*.32,y-r*.18,r*.12,0,Math.PI*2);ctx.arc(x+r*.32,y-r*.18,r*.12,0,Math.PI*2);ctx.fill();
-        ctx.strokeStyle='rgba(20,27,37,.95)';ctx.lineWidth=4;ctx.beginPath();ctx.arc(x,y+r*.04,r*.46,.15*Math.PI,.85*Math.PI);ctx.stroke();
+      const g=ctx.createLinearGradient(0,0,w,h);g.addColorStop(0,'#171f2a');g.addColorStop(1,'#202937');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+      for(let i=0;i<8;i++){
+        const x=90+rand()*(w-180),y=90+rand()*(h-180),r=36+rand()*56;
+        ctx.fillStyle='rgba(255,210,68,.92)';ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();
+        ctx.fillStyle='rgba(17,22,30,.96)';ctx.beginPath();ctx.arc(x-r*.28,y-r*.18,r*.11,0,Math.PI*2);ctx.arc(x+r*.28,y-r*.18,r*.11,0,Math.PI*2);ctx.fill();
+        ctx.strokeStyle='rgba(17,22,30,.96)';ctx.lineWidth=Math.max(3,r*.11);ctx.beginPath();ctx.arc(x,y+r*.03,r*.46,.15*Math.PI,.85*Math.PI);ctx.stroke();
       }
-      this.drawStrokes(ctx,w,h,rand,10,['rgba(255,255,255,.15)','rgba(87,210,255,.25)'],4);
+      this.drawStrokes(ctx,w,h,rand,16,['rgba(81,197,255,.40)','rgba(255,108,168,.34)','rgba(255,255,255,.10)'],4);
+      this.drawRects(ctx,w,h,rand,10,['rgba(255,210,68,.18)','rgba(87,210,255,.12)'],80,220,40,120,.25);
     });
 
     if(name.includes('hybrid'))return this.canvasTexture((ctx,w,h)=>{
@@ -178,9 +180,13 @@ export class CaseLabViewer{
     });
 
     if(name.includes('etch lord'))return this.canvasTexture((ctx,w,h)=>{
-      const g=ctx.createLinearGradient(0,0,w,h);g.addColorStop(0,'#16181e');g.addColorStop(1,'#3a404d');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
-      ctx.strokeStyle='rgba(212,220,230,.55)';ctx.lineWidth=2.5;for(let i=0;i<26;i++){ctx.beginPath();ctx.moveTo(rand()*w,rand()*h);for(let j=0;j<3;j++)ctx.lineTo(rand()*w,rand()*h);ctx.stroke();}
-      this.drawStrokes(ctx,w,h,rand,8,['rgba(141,154,177,.35)','rgba(255,255,255,.2)'],5);
+      const g=ctx.createLinearGradient(0,0,w,h);g.addColorStop(0,'#0f1217');g.addColorStop(.65,'#1e232b');g.addColorStop(1,'#343b46');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+      for(let i=0;i<18;i++){
+        ctx.strokeStyle='rgba(225,232,240,.54)';ctx.lineWidth=1.8+rand()*1.8;ctx.beginPath();
+        let x=rand()*w,y=rand()*h;ctx.moveTo(x,y);
+        for(let j=0;j<4;j++){x+=(rand()-.5)*180;y+=(rand()-.5)*180;ctx.lineTo(x,y);}ctx.stroke();
+      }
+      this.drawStrokes(ctx,w,h,rand,8,['rgba(255,255,255,.18)','rgba(145,155,172,.24)'],4);
     });
 
     if(name.includes('block-18'))return this.canvasTexture((ctx,w,h)=>{
@@ -233,13 +239,13 @@ export class CaseLabViewer{
     if(name.includes('boreal forest'))return this.canvasTexture((ctx,w,h)=>{ctx.fillStyle='#69755a';ctx.fillRect(0,0,w,h);this.drawRects(ctx,w,h,rand,26,['#38422e','#7b866a','#4b5740'],40,150,20,70,.55);});
     if(name.includes('safari mesh'))return this.canvasTexture((ctx,w,h)=>{ctx.fillStyle='#c2b491';ctx.fillRect(0,0,w,h);this.lineGrid(ctx,w,h,48,'#8b7b59',.22);this.drawRects(ctx,w,h,rand,16,['rgba(122,108,78,.35)','rgba(215,199,163,.25)'],40,120,20,60,.25);});
     if(name.includes('urban masked'))return this.canvasTexture((ctx,w,h)=>{ctx.fillStyle='#8d959c';ctx.fillRect(0,0,w,h);this.drawRects(ctx,w,h,rand,26,['#545c63','#9fa7ac','#6d747a'],40,140,20,70,.55);});
-    if(name.includes('night stripe'))return this.canvasTexture((ctx,w,h)=>{ctx.fillStyle='#14161b';ctx.fillRect(0,0,w,h);ctx.strokeStyle='rgba(70,73,82,.8)';ctx.lineWidth=12;for(let i=-h;i<w+h;i+=80){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i-h,h);ctx.stroke();}});
+    if(name.includes('night stripe'))return this.canvasTexture((ctx,w,h)=>{ctx.fillStyle='#14161b';ctx.fillRect(0,0,w,h);ctx.strokeStyle='rgba(70,73,82,.8)';ctx.lineWidth=12;for(let i=-h;i<w;i+=80){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i+h,h);ctx.stroke();}});
     if(name.includes('crimson web'))return this.canvasTexture((ctx,w,h)=>{ctx.fillStyle='#7a111c';ctx.fillRect(0,0,w,h);ctx.strokeStyle='rgba(255,255,255,.38)';ctx.lineWidth=2;for(let i=0;i<10;i++){const x=rand()*w,y=rand()*h,r=30+rand()*90;ctx.beginPath();for(let a=0;a<8;a++){const ang=a*Math.PI/4;ctx.moveTo(x,y);ctx.lineTo(x+Math.cos(ang)*r,y+Math.sin(ang)*r);}ctx.stroke();ctx.beginPath();for(let k=1;k<=4;k++)ctx.arc(x,y,r*(k/4),0,Math.PI*2);ctx.stroke();}});
-    if(name.includes('case hardened'))return this.canvasTexture((ctx,w,h)=>{ctx.fillStyle='#806b49';ctx.fillRect(0,0,w,h);this.drawDots(ctx,w,h,rand,34,['rgba(34,85,160,.82)','rgba(186,138,27,.8)','rgba(93,41,144,.72)'],18,66,.75);});
+    if(name.includes('case hardened'))return this.canvasTexture((ctx,w,h)=>{ctx.fillStyle='#7d6848';ctx.fillRect(0,0,w,h);this.drawDots(ctx,w,h,rand,34,['rgba(34,85,160,.82)','rgba(186,138,27,.8)','rgba(93,41,144,.72)','rgba(206,108,38,.52)'],18,66,.75);});
     if(name.includes('blue steel'))return this.canvasTexture((ctx,w,h)=>{const g=ctx.createLinearGradient(0,0,w,h);g.addColorStop(0,'#7e8899');g.addColorStop(.5,'#576476');g.addColorStop(1,'#2f3948');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);});
-    if(name.includes('scorched'))return this.canvasTexture((ctx,w,h)=>{ctx.fillStyle='#2d2d2d';ctx.fillRect(0,0,w,h);this.drawRects(ctx,w,h,rand,26,['rgba(90,90,90,.25)','rgba(20,20,20,.15)'],18,60,2,10,.35);});
+    if(name.includes('scorched'))return this.canvasTexture((ctx,w,h)=>{const g=ctx.createLinearGradient(0,0,w,h);g.addColorStop(0,'#5f6266');g.addColorStop(.5,'#898d92');g.addColorStop(1,'#3b4046');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);this.drawRects(ctx,w,h,rand,42,['rgba(18,18,18,.32)','rgba(70,70,70,.18)','rgba(130,130,130,.10)'],24,110,4,18,.30);});
     if(name.includes('stained'))return this.canvasTexture((ctx,w,h)=>{const g=ctx.createLinearGradient(0,0,w,h);g.addColorStop(0,'#b8bdc6');g.addColorStop(.5,'#8b929d');g.addColorStop(1,'#dfe5ef');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);this.drawDots(ctx,w,h,rand,24,['rgba(110,110,110,.22)','rgba(255,255,255,.15)'],6,18,.28);});
-    if(name.includes('fade'))return this.canvasTexture((ctx,w,h)=>{const g=ctx.createLinearGradient(0,0,w,0);g.addColorStop(0,'#f4d03f');g.addColorStop(.24,'#f1c40f');g.addColorStop(.48,'#f39c12');g.addColorStop(.7,'#ff6fa0');g.addColorStop(1,'#9b59b6');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);});
+    if(name.includes('fade'))return this.canvasTexture((ctx,w,h)=>{const g=ctx.createLinearGradient(0,0,w,0);g.addColorStop(0,'#f5df6d');g.addColorStop(.22,'#f2d454');g.addColorStop(.42,'#ff83ba');g.addColorStop(.68,'#f0a233');g.addColorStop(.86,'#d16cf1');g.addColorStop(1,'#8452cc');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);});
     if(name.includes('slaughter'))return this.canvasTexture((ctx,w,h)=>{ctx.fillStyle='#a51520';ctx.fillRect(0,0,w,h);ctx.strokeStyle='rgba(255,210,210,.34)';ctx.lineWidth=10;for(let i=-h;i<w;i+=70){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i+h,h);ctx.stroke();}});
     if(name.includes('vanilla'))return this.canvasTexture((ctx,w,h)=>{const g=ctx.createLinearGradient(0,0,w,h);g.addColorStop(0,'#d8c38f');g.addColorStop(.5,'#9f8649');g.addColorStop(1,'#ead49a');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);});
 
@@ -247,43 +253,52 @@ export class CaseLabViewer{
   }
   materialProfile(def){
     const name=(def?.name||def?.finish||'').toLowerCase();
-    if(name.includes('chrome cannon'))return {metalness:.82,roughness:.26};
-    if(name.includes('vanilla')||name.includes('fade')||name.includes('case hardened')||name.includes('stained')||name.includes('blue steel'))return {metalness:.72,roughness:.34};
-    if(name.includes('scorched')||name.includes('night stripe')||name.includes('forest')||name.includes('urban')||name.includes('safari'))return {metalness:.46,roughness:.55};
-    if(name.includes('black lotus')||name.includes('dark sigil'))return {metalness:.28,roughness:.54};
-    return {metalness:.22,roughness:.6};
+    if(name.includes('chrome cannon'))return {metalness:.88,roughness:.2};
+    if(name.includes('vanilla')||name.includes('fade')||name.includes('case hardened')||name.includes('stained')||name.includes('blue steel'))return {metalness:.76,roughness:.3};
+    if(name.includes('scorched')||name.includes('night stripe')||name.includes('forest')||name.includes('urban')||name.includes('safari'))return {metalness:.52,roughness:.48};
+    if(name.includes('black lotus')||name.includes('dark sigil'))return {metalness:.3,roughness:.52};
+    return {metalness:.26,roughness:.56};
   }
   makeKukriProxy(item,def){
     const g=new THREE.Group();
+
     const bladeShape=new THREE.Shape();
-    bladeShape.moveTo(-1.28,-.1);
-    bladeShape.quadraticCurveTo(-.82,.06,-.28,.12);
-    bladeShape.quadraticCurveTo(.35,.16,1.06,.06);
-    bladeShape.quadraticCurveTo(1.28,0,1.5,-.18);
-    bladeShape.quadraticCurveTo(1.1,-.18,.62,-.18);
-    bladeShape.quadraticCurveTo(.05,-.19,-.55,-.26);
-    bladeShape.quadraticCurveTo(-1.0,-.24,-1.28,-.1);
-    const bladeGeo=new THREE.ExtrudeGeometry(bladeShape,{depth:.06,bevelEnabled:true,bevelSize:.008,bevelThickness:.008,steps:1});
+    bladeShape.moveTo(-1.62,-.05);
+    bladeShape.quadraticCurveTo(-1.28,.02,-.75,.08);
+    bladeShape.quadraticCurveTo(-.05,.18,.78,.15);
+    bladeShape.quadraticCurveTo(1.18,.13,1.52,-.02);
+    bladeShape.quadraticCurveTo(1.18,-.18,.6,-.24);
+    bladeShape.quadraticCurveTo(-.18,-.31,-.9,-.24);
+    bladeShape.quadraticCurveTo(-1.36,-.18,-1.62,-.05);
+    const bladeGeo=new THREE.ExtrudeGeometry(bladeShape,{depth:.05,bevelEnabled:true,bevelSize:.01,bevelThickness:.01,steps:1});
     bladeGeo.center();
 
-    const bolster=new THREE.Mesh(new THREE.BoxGeometry(.14,.16,.14),new THREE.MeshStandardMaterial({color:0x8f7b49,metalness:.48,roughness:.48}));
-    const handle=new THREE.Mesh(new THREE.CylinderGeometry(.075,.09,.7,18),new THREE.MeshStandardMaterial({color:0x6c5235,metalness:.12,roughness:.82}));
-    const pommel=new THREE.Mesh(new THREE.CylinderGeometry(.12,.12,.08,18),new THREE.MeshStandardMaterial({color:0x9b834e,metalness:.45,roughness:.45}));
-    const ring=new THREE.Mesh(new THREE.TorusGeometry(.18,.04,18,36),new THREE.MeshStandardMaterial({color:0x9b834e,metalness:.45,roughness:.45}));
-    const bladeMat=new THREE.MeshStandardMaterial({map:this.proceduralFinishMap(item,def),color:0xffffff,metalness:.62,roughness:.34,side:THREE.DoubleSide});
-    const blade=new THREE.Mesh(bladeGeo,bladeMat);blade.rotation.x=Math.PI*.5;blade.position.x=.32;g.add(blade);
-    bolster.userData.keepMaterial=true;handle.userData.keepMaterial=true;pommel.userData.keepMaterial=true;ring.userData.keepMaterial=true;
-    bolster.rotation.z=Math.PI*.5;bolster.position.set(-1.04,0,.03);g.add(bolster);
-    handle.rotation.z=Math.PI*.5;handle.position.set(-1.38,0,.03);g.add(handle);
-    pommel.rotation.z=Math.PI*.5;pommel.position.set(-1.76,0,.03);g.add(pommel);
-    ring.rotation.y=Math.PI*.5;ring.position.set(-1.95,0,.03);g.add(ring);
+    const fullerGeo=new THREE.BoxGeometry(1.15,.025,.012);
+    const guardGeo=new THREE.BoxGeometry(.16,.17,.11);
+    const handleGeo=new THREE.CylinderGeometry(.08,.095,.68,18);
+    const pommelGeo=new THREE.CylinderGeometry(.11,.11,.08,18);
+    const ringGeo=new THREE.TorusGeometry(.18,.038,16,30);
+
+    const bladeMat=new THREE.MeshStandardMaterial({map:this.proceduralFinishMap(item,def),color:0xffffff,metalness:.72,roughness:.3,side:THREE.DoubleSide});
+    const spineMat=new THREE.MeshStandardMaterial({color:0xc8ced8,metalness:.7,roughness:.22});
+    const brassMat=new THREE.MeshStandardMaterial({color:0x9d7f48,metalness:.58,roughness:.36});
+    const gripMat=new THREE.MeshStandardMaterial({color:0x6d5337,metalness:.12,roughness:.86});
+
+    const blade=new THREE.Mesh(bladeGeo,bladeMat);blade.rotation.x=Math.PI*.5;blade.position.set(.42,0,.03);g.add(blade);
+    const fuller=new THREE.Mesh(fullerGeo,new THREE.MeshStandardMaterial({color:0xe8edf6,metalness:.76,roughness:.18}));fuller.rotation.z=-.04;fuller.position.set(.28,.035,.058);g.add(fuller);
+    const guard=new THREE.Mesh(guardGeo,brassMat);guard.rotation.z=Math.PI*.5;guard.position.set(-1.12,0,.03);g.add(guard);
+    const grip=new THREE.Mesh(handleGeo,gripMat);grip.rotation.z=Math.PI*.5;grip.position.set(-1.47,0,.03);g.add(grip);
+    const pommel=new THREE.Mesh(pommelGeo,brassMat);pommel.rotation.z=Math.PI*.5;pommel.position.set(-1.83,0,.03);g.add(pommel);
+    const ring=new THREE.Mesh(ringGeo,brassMat);ring.rotation.y=Math.PI*.5;ring.position.set(-2.02,0,.03);g.add(ring);
+    const spine=new THREE.Mesh(new THREE.BoxGeometry(.48,.028,.03),spineMat);spine.position.set(-1.23,.005,.05);g.add(spine);
+
     return g;
   }
   async materialFor(item,def){
     const profile=this.materialProfile(def);
     const map=this.proceduralFinishMap(item,def);
     const m=new THREE.MeshStandardMaterial({map,color:0xffffff,metalness:profile.metalness,roughness:profile.roughness,side:THREE.DoubleSide});
-    return {material:m,status:'Local finish preview active · wear degradation pending · camera-space inspect lighting active',supported:true};
+    return {material:m,status:'Stage 8 local finish preview active · static camera-adjacent lighting active · wear degradation still pending',supported:true};
   }
   frame(store=true){
     if(!this.root)return;

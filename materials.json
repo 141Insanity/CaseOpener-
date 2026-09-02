@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "modelBase": "https://raw.githubusercontent.com/Amansingh-afk/armoury/master/apps/web/public/models/",
-  "status": "preview",
-  "notes": "v0.6.0 preview keeps models remote while the local asset bundle is assembled. Five skins have raw CS2 map manifests; the Source-2 finish/wear compositor is deliberately marked incomplete rather than presented as exact.",
+  "status": "stage8-preview",
+  "notes": "Stage 8 preview: camera-adjacent static lighting tuned for readability, improved procedural finish previews for more Kilowatt skins, and a less placeholder Kukri proxy while exact Source-2 wear compositing remains pending.",
   "skins": {
     "skin.kilowatt.dual-berettas.hideout": {
       "pattern":"https://cdn.csskinlab.com/textures/526ebf4116e1d61332b64b92d23f7719b2fc32a3cbcbabf69f93f9a1e5c25517.png?v=3",
