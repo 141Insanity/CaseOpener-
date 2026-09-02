@@ -12,7 +12,7 @@ const modelMap={
   'AWP':'awp.glb','AK-47':'ak47.glb'
 };
 const MODEL_BASE='https://raw.githubusercontent.com/Amansingh-afk/armoury/master/apps/web/public/models/';
-const MODEL_CACHE='caselab-models-stage4-v1';
+const MODEL_CACHE='caselab-models-stage5-v1';
 const memoryBuffers=new Map();
 
 let renderer=null,scene=null,camera=null,controls=null,root=null,currentItem=null,homeView=null;
@@ -38,7 +38,7 @@ function ensure(){
   renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
   renderer.outputColorSpace=THREE.SRGBColorSpace;
   renderer.toneMapping=THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure=0.95;
+  renderer.toneMappingExposure=1.08;
   host.appendChild(renderer.domElement);
 
   scene=new THREE.Scene();
@@ -55,11 +55,13 @@ function ensure(){
   controls.touches={ONE:THREE.TOUCH.ROTATE,TWO:THREE.TOUCH.DOLLY_PAN};
   controls.addEventListener('start',()=>{userMovedCamera=true});
 
-  // One world-space key light only. It never follows the camera or weapon.
-  // Readability on the shadow side comes from the material's very small emissive baseline,
-  // not from extra fill/rim/hemisphere lights.
-  const key=new THREE.DirectionalLight(0xffffff,2.25);
-  key.position.set(4.2,5.1,6.4);
+  // Stage 5 fixed studio rig. Nothing follows the camera or the weapon.
+  // A neutral ambient base keeps the reverse side readable; one static directional key
+  // provides the visible directionality so rotating the gun does not plunge it into black.
+  const ambient=new THREE.AmbientLight(0xffffff,1.38);
+  scene.add(ambient);
+  const key=new THREE.DirectionalLight(0xfff7eb,1.42);
+  key.position.set(4.6,5.8,7.0);
   key.target.position.set(0,0,0);
   scene.add(key,key.target);
 
@@ -205,22 +207,52 @@ async function applyMaterials(item,imgUrl){
   return applyPreviewMaterials({THREE,root,item,imgUrl,renderer});
 }
 
+
+function buildNativeKukri(){
+  // Native Kukri inspect geometry used for the Kilowatt rare-special pool.
+  // Built as a clean extruded blade/handle so every Kukri finish participates in the same
+  // Stage-5 material/wear pipeline while the official Valve geometry remains the parity target.
+  const group=new THREE.Group();
+  const bladeShape=new THREE.Shape();
+  bladeShape.moveTo(-1.45,-0.11);
+  bladeShape.lineTo(-1.05,-0.28);
+  bladeShape.quadraticCurveTo(-0.35,-0.56,0.36,-0.54);
+  bladeShape.quadraticCurveTo(0.78,-0.52,1.10,-0.27);
+  bladeShape.lineTo(0.86,-0.06);
+  bladeShape.quadraticCurveTo(0.25,-0.20,-0.35,-0.06);
+  bladeShape.quadraticCurveTo(-0.95,0.08,-1.45,-0.11);
+  const bladeGeo=new THREE.ExtrudeGeometry(bladeShape,{depth:.095,bevelEnabled:true,bevelThickness:.025,bevelSize:.022,bevelSegments:2,curveSegments:10});
+  bladeGeo.center();
+  const blade=new THREE.Mesh(bladeGeo,new THREE.MeshStandardMaterial({color:0xb7bdc5,metalness:.72,roughness:.30}));
+  blade.position.x=-.38;
+  group.add(blade);
+
+  const handleShape=new THREE.Shape();
+  handleShape.moveTo(.70,-.17);handleShape.lineTo(1.47,-.29);handleShape.quadraticCurveTo(1.64,-.24,1.60,-.08);handleShape.lineTo(1.50,.15);handleShape.quadraticCurveTo(1.42,.27,1.27,.21);handleShape.lineTo(.75,.08);handleShape.closePath();
+  const hGeo=new THREE.ExtrudeGeometry(handleShape,{depth:.14,bevelEnabled:true,bevelThickness:.035,bevelSize:.028,bevelSegments:2});hGeo.center();
+  const handle=new THREE.Mesh(hGeo,new THREE.MeshStandardMaterial({color:0x20242b,metalness:.18,roughness:.72}));handle.position.x=.45;group.add(handle);
+  const ringGeo=new THREE.TorusGeometry(.12,.035,8,24);const ring=new THREE.Mesh(ringGeo,new THREE.MeshStandardMaterial({color:0x555c65,metalness:.75,roughness:.3}));ring.position.set(1.35,.00,.08);group.add(ring);
+  group.rotation.z=-.05;
+  return group;
+}
+
 async function open(item,imgUrl){
   ensure();
   const token=++openToken;
   isOpen=true; currentItem=item; userMovedCamera=false;
   stopLoop(); clearRoot(); resize(); startLoop();
   loading.classList.remove('hidden');
-  loading.textContent='Loading cached CS2 weapon mesh…';
+  loading.textContent='Loading Stage-5 weapon mesh + Kilowatt finish…';
   const weapon=weaponOf(item.name), file=modelMap[weapon];
-  if(!file){
-    loading.textContent='Native Stage-4 model not available for this item yet. Kukri models arrive in Stage 5.';
-    return;
-  }
   try{
-    const gltf=await loadGLTF(file);
-    if(token!==openToken){disposeObject(gltf.scene);return}
-    root=gltf.scene;
+    if(weapon==='Kukri Knife'){
+      root=buildNativeKukri();
+    }else{
+      if(!file) throw new Error('No native model registered for '+weapon);
+      const gltf=await loadGLTF(file);
+      if(token!==openToken){disposeObject(gltf.scene);return}
+      root=gltf.scene;
+    }
     scene.add(root);
     normalizeProfileOrientation(root);
     normalizeScaleAndCenter(root);
