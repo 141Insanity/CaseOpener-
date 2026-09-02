@@ -1,12 +1,12 @@
 (()=>{
 'use strict';
 const DB_NAME='caselab';
-const DB_VERSION=2;
+const DB_VERSION=3;
 const STATE_STORE='state';
 const META_STORE='meta';
 const CURRENT_KEY='current';
 const LEGACY_KEY='caselab-kilowatt-v01';
-const SCHEMA_VERSION=2;
+const SCHEMA_VERSION=3;
 let dbPromise=null;
 
 function clone(v){return typeof structuredClone==='function'?structuredClone(v):JSON.parse(JSON.stringify(v));}
