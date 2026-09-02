@@ -49,7 +49,7 @@ function buildDefinitionMaps(){
 
 async function init(){
   try{
-    [caseData,priceData,materialData]=await Promise.all([loadJSON('./data/kilowatt.json'),loadJSON('./data/prices.json'),loadJSON('./data/materials.json')]);
+    [caseData,priceData,materialData]=await Promise.all([loadJSON('./kilowatt.json'),loadJSON('./prices.json'),loadJSON('./materials.json')]);
     buildDefinitionMaps();
     market=new MarketService(priceData,defsById,DB);
     await DB.openDB();

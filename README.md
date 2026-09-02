@@ -1,20 +1,14 @@
-# CaseLab v0.6.0 — Stage 5.1 Repair Build
+# CaseLab v0.6.0 — Stage 5.2 Flat Repair Build
 
-This is a repair build focused on the issues found in Stage 5.
+This build fixes the GitHub mobile-upload failure caused by nested runtime folders.
 
-## What changed
-- Corrected the top version label so the app clearly shows **v0.6.0 · Stage 5.1 Preview**.
-- Swapped the Stage-5 fake projected-skin viewer approach for the v0.6 multi-file preview viewer.
-- Added a stable fixed studio lighting setup with one dominant key light plus subtle static fill so the back side of weapons stays readable without lighting popping around when the gun rotates.
-- Adjusted initial framing so inspected weapons start lower and slightly farther back, reducing top-edge clipping.
-- Kept inventory/trade-up filters, highest-rarity sorting, StatTrak filtering, IndexedDB save migration, and bulk sell by rarity/StatTrak.
-- For the subset of Kilowatt skins that currently have authored preview material maps in the manifest, the native viewer now prefers those native-UV maps instead of the broken full-image projection method.
-- For skins without a verified finish recipe yet, the viewer intentionally shows neutral geometry and states that the exact local finish recipe is still missing, instead of falsely pretending the skin is correct.
+## Upload
+Upload every file in this ZIP directly to the repository root. There are **no subfolders**.
 
-## Still blocked before final v0.6.0
-- All 17 Kilowatt gun finishes need verified local finish recipes.
-- Exact float-driven wear and pattern transforms still need a real finish compositor.
-- Kukri still needs a verified native mesh + finish set.
+Required files include `index.html`, `app.css`, the JavaScript modules, and the JSON data files.
 
-## Upload to GitHub Pages
-Upload the **contents** of this folder so `index.html` sits at the repo root, alongside the `css`, `js`, `data`, and `assets` folders.
+## Stage 5.2 status
+- Restores the normal CaseLab styling and tab layout when all files are uploaded to the repo root.
+- Keeps IndexedDB, Stage-2 simulation math, Stage-3 economy/bulk selling, and the Stage-4 viewer foundation.
+- Keeps the Stage-5.1 lighting/material repair work.
+- Final Source-2-accurate skins and verified native Kukri remain v0.6 blockers; unsupported finishes deliberately do not pretend to be exact.
