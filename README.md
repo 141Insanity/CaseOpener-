@@ -1,19 +1,24 @@
-# CaseLab v0.6.0 — Stage 3
+# CaseLab v0.6.0 — Stage 4
 
-Stage 3 preserves the working flat GitHub Pages deployment from Stage 2 and adds the inventory/economy layer.
-
-## Included
-- IndexedDB save migration remains active.
-- Permanent historical Best Pull.
-- Bulk sell by rarity with All / StatTrak / Non-StatTrak filters and double confirmation for Covert/Gold.
-- Steam fee calculation uses cent-based Steam + CS2 fee behavior rather than a flat 15% multiplier.
-- Gross realized ROI and Steam-net liquidation ROI remain separate.
-- Theoretical current gross RTP + expected loss/open are shown from the baked wear-specific snapshot.
-- Removed invented within-wear float price multipliers.
-- Limited automatic Steam Market refresh attempt with visible timestamp/status and snapshot fallback. Browser CORS/rate limiting may prevent live refresh; fallback is intentional.
+Stage 4 rebuilds the native 3D renderer foundation while preserving the working Stage 3 case/inventory/economy systems.
 
 ## Upload
-Upload every file in this ZIP directly to the GitHub repository root. Keep `index.html` at the root.
+Upload every file in this ZIP to the root of the GitHub Pages repository.
 
-## Stage 4
-Native 3D renderer/material architecture cleanup and local asset handling.
+## Stage 4 renderer changes
+- one fixed world-space directional studio light (no moving fill/rim/hemisphere rig)
+- neutral emissive baseline keeps the shadow side readable without adding another scene light
+- reliable side-profile initial/reset camera
+- stricter minimum zoom so the camera cannot enter the weapon mesh
+- browser-chrome resizes no longer reset the user's camera
+- viewer gestures are isolated from CaseLab's global Safari anti-page-zoom handlers
+- render loop pauses when Inspect 3D closes or the page is backgrounded
+- geometry/material/texture GPU resources are disposed on close/item change
+- model GLBs are cached in Cache Storage and memory after first load
+- async item changes are tokenized so a slow previous model cannot overwrite a newer inspect
+- material application is isolated behind `materials3d.js` / `CaseLabFinishPipeline`
+
+## Intentional Stage 4 limitation
+Stage 4 uses a neutral readable weapon material. It intentionally removes the old panorama-image skin projection because that was not a valid CS2 material pipeline. Stage 5 is the Kilowatt finish pass: all 17 gun finishes, real wear/pattern behavior where applicable, and native Kukri models/finishes.
+
+Steam live-price refresh may still report unavailable due to browser CORS; snapshot pricing remains the fallback.
